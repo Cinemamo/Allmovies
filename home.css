@@ -1,4 +1,3 @@
-/* General Styles */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: Arial, sans-serif; background: #111; color: #fff; }
 
@@ -11,47 +10,8 @@ body { font-family: Arial, sans-serif; background: #111; color: #fff; }
 .nav-links { display: flex; align-items: center; gap: 50px; }
 .nav-links a { color: white; text-decoration: none; margin: 0 20px; }
 
-/* Hamburger Menu */
-.hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
-}
-
-.hamburger div {
-  width: 30px;
-  height: 4px;
-  background-color: white;
-  border-radius: 5px;
-}
-
-.genre-menu {
-  display: none;
-  position: absolute;
-  background: #222;
-  top: 50px;
-  left: 10px;
-  right: 10px;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.genre-menu a {
-  display: block;
-  color: white;
-  text-decoration: none;
-  margin: 10px 0;
-}
-
-.genre-menu a:hover {
-  color: #ffd700;
-}
-
 .search-bar {
-  padding: 5px;
-  border-radius: 5px;
-  border: none;
+  padding: 5px; border-radius: 5px; border: none;
 }
 
 .banner {
@@ -252,22 +212,6 @@ body { font-family: Arial, sans-serif; background: #111; color: #fff; }
     -webkit-overflow-scrolling: touch;
     padding: 10px 0;
   }
-
-  /* Hamburger Menu */
-  .hamburger {
-    display: flex;
-  }
-
-  .genre-menu {
-    display: none;
-    position: absolute;
-    background: #222;
-    top: 50px;
-    left: 10px;
-    right: 10px;
-    padding: 10px;
-    border-radius: 5px;
-  }
 }
 
 @media (max-width: 480px) {
@@ -337,5 +281,64 @@ body { font-family: Arial, sans-serif; background: #111; color: #fff; }
   .footer-links {
     flex-direction: row;
     gap: 8px;
+  }
+}
+
+/* Hamburger Menu Styles */
+.hamburger {
+  display: none; 
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.hamburger div {
+  width: 30px;
+  height: 4px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.genre-menu {
+  display: none;
+  position: absolute;
+  background: #222;
+  top: 50px;
+  left: 10px;
+  right: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.genre-menu a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  margin: 10px 0;
+}
+
+.genre-menu a:hover {
+  color: #ffd700;
+}
+
+@media (max-width: 768px) {
+  /* Show hamburger on mobile */
+  .hamburger {
+    display: flex;
+  }
+
+  .genre-menu {
+    display: none;
+    position: absolute;
+    background: #222;
+    top: 50px;
+    left: 10px;
+    right: 10px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .genre-menu.show {
+    display: block;
   }
 }
