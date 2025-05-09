@@ -6,9 +6,9 @@
       padding: 10px; background: #222;
     }
 
-    .navbar img { height: 60px; }
-    .nav-links { display: flex; align-items: center; gap: 20px; }
-    .nav-links a { color: white; text-decoration: none; margin: 0 10px; }
+    .navbar img { height: 80px; }
+    .nav-links { display: flex; align-items: center; gap: 50px; }
+    .nav-links a { color: white; text-decoration: none; margin: 0 20px; }
 
     .search-bar {
       padding: 5px; border-radius: 5px; border: none;
