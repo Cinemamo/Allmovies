@@ -88,24 +88,25 @@
     <div class="results" id="search-results"></div>
   </div>
 
-  <div class="footer">
+  <footer class="footer">
   <div class="footer-content">
-    <button class="disclaimer-toggle">Disclaimer</button>
-    <div class="disclaimer-text" id="disclaimerText">
-      <p>
-        The movies displayed on this site are embedded from third-party servers only.
-        We do not host or upload any of the content featured here.
-        If you have any copyright concerns, please contact the respective hosting providers.
-      </p>
-    </div>
-
     <div class="footer-links">
-      <a href="#">About</a>
-      <a href="#">Privacy</a>
-      <a href="#">Contact</a>
+      <button class="footer-button" onclick="toggleDisclaimer()">Disclaimer</button>
+      <button class="footer-button" onclick="toggleAbout()">About Us</button>
+    </div>
+    <div id="disclaimer" class="footer-box" style="display: none;">
+      <h3>Disclaimer</h3>
+      <p>The movies displayed on this site are embedded from third-party servers only.
+        We do not host or upload any of the content featured here.
+        If you have any copyright concerns, please contact the respective hosting providers..</p>
+    </div>
+    <div id="aboutSection" class="footer-box" style="display: none;">
+      <h3>About Us</h3>
+      <p>We provide free access to popular and trending movies using public sources. We do not store or host any videos directly.</p>
     </div>
   </div>
-</div>
+</footer>
+
 
 
 
