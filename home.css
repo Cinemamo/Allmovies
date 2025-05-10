@@ -37,12 +37,6 @@ body {
   margin: 0 5px;
 }
 
-.search-bar {
-  padding: 5px;
-  border-radius: 5px;
-  border: none;
-}
-
 /* Banner */
 .banner {
   height: 50vh;
@@ -231,7 +225,33 @@ body {
   color: #fff;
 }
 
-/* Responsive Design */
+/* Disclaimer Styles */
+.disclaimer-toggle {
+  background: transparent;
+  border: 1px solid red;
+  color: red;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.disclaimer-text {
+  display: none;
+  margin-top: 10px;
+}
+
+.disclaimer-text.active {
+  display: block;
+}
+
+.disclaimer-text p {
+  color: #ccc;
+  font-size: 14px;
+  text-align: center;
+  padding: 0 10px;
+}
+
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
@@ -248,11 +268,6 @@ body {
   .nav-links a {
     width: 100%;
     padding: 8px 0;
-  }
-
-  .search-bar {
-    width: 100%;
-    margin-top: 10px;
   }
 
   .banner {
@@ -317,80 +332,4 @@ body {
     flex-direction: row;
     gap: 8px;
   }
-}
-/* Disclaimer Styles */
-.disclaimer-toggle {
-  background: transparent;
-  border: 1px solid red;
-  color: red;
-  padding: 5px 10px;
-  cursor: pointer;
-  border-radius: 5px;
-  margin-bottom: 10px;
-}
-
-.disclaimer-text {
-  display: none;
-  margin-top: 10px;
-}
-
-.disclaimer-text.active {
-  display: block;
-}
-
-.disclaimer-text p {
-  color: #ccc;
-  font-size: 14px;
-  text-align: center;
-  padding: 0 10px;
-}
-.disclaimer-text {
-  display: none;
-  margin-top: 10px;
-  color: #ccc;
-  font-size: 14px;
-  text-align: center;
-}
-
-.disclaimer-text.active {
-  display: block;
-}
-.about-toggle {
-  background-color: #444;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin: 20px auto;
-  display: block;
-}
-
-.about-section {
-  background: #222;
-  color: #ccc;
-  padding: 20px;
-  margin: 20px;
-  border-radius: 10px;
-}
-.footer-button {
-  background: #444;
-  color: #fff;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.footer-button:hover {
-  background: #666;
-}
-
-.footer-box {
-  background: #1a1a1a;
-  padding: 15px;
-  margin-top: 15px;
-  border-radius: 8px;
-  color: #ccc;
 }
