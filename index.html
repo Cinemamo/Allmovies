@@ -28,18 +28,17 @@
 
   <!-- Genre Menu -->
   <div class="genre-menu" id="genreMenu">
-  <a href="action.html">Action</a>
-  <a href="adventure.html">Adventure</a>
-  <a href="drama.html">Drama</a>
-  <a href="horror.html">Horror</a>
-  <a href="comedy.html">Comedy</a>
-  <a href="romance.html">Romance</a>
-  <a href="scifi.html">Sci-Fi</a>
-  <a href="thriller.html">Thriller</a>
-  <a href="fantasy.html">Fantasy</a>
-  <a href="animation.html">Animation</a>
-</div>
-
+    <a href="action.html">Action</a>
+    <a href="adventure.html">Adventure</a>
+    <a href="drama.html">Drama</a>
+    <a href="horror.html">Horror</a>
+    <a href="comedy.html">Comedy</a>
+    <a href="romance.html">Romance</a>
+    <a href="scifi.html">Sci-Fi</a>
+    <a href="thriller.html">Thriller</a>
+    <a href="fantasy.html">Fantasy</a>
+    <a href="animation.html">Animation</a>
+  </div>
 
   <div class="banner" id="banner">
     <h1 id="banner-title"></h1>
@@ -60,35 +59,49 @@
     <div class="list" id="anime-list"></div>
   </div>
 
-  <div class="modal" id="modal">
+  <!-- UPDATED MODAL -->
+  <div id="modal" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="closeModal()" style="color: red;">&times;</span>
+      <span class="close" onclick="closeModal()">&times;</span>
+      
+      <h2 id="modal-title"></h2>
+
       <div class="modal-body">
-        <img id="modal-image" src="" alt="" />
+        <img id="modal-image" src="" alt="Movie Poster">
         <div class="modal-text">
-          <h2 id="modal-title"></h2>
-          <div class="stars" id="modal-rating"></div>
           <p id="modal-description"></p>
+          <p class="stars" id="modal-rating"></p>
+          
+          <!-- SERVER SELECTOR -->
+          <div class="server-selector">
+            <label for="server">Pumili ng server:</label>
+            <select id="server" onchange="changeServer()">
+              <option value="vidsrc.cc">vidsrc.cc</option>
+              <option value="vidsrc.net">vidsrc.net</option>
+              <option value="videasy">player.videasy.net</option>
+              <option value="2embed">2embed.to</option>
+              <option value="multiembed">multiembed.mov</option>
+              <option value="vidplay">vidplay.online</option>
+              <option value="upstream">upstream.to</option>
+            </select>
+          </div>
+
         </div>
       </div>
-      <div class="server-selector">
-        <label for="server">Change Server:</label>
-        <select id="server" onchange="changeServer()">
-          <option value="vidsrc.cc">Vidsrc.cc</option>
-          <option value="vidsrc.me">Vidsrc.me</option>
-          <option value="player.videasy.net">Player.Videasy.net</option>
-        </select>
-      </div>
-      <iframe id="modal-video" width="100%" height="315" frameborder="0" allowfullscreen></iframe>
+
+      <!-- VIDEO PLAYER -->
+      <iframe id="modal-video" width="100%" height="400" frameborder="0" allowfullscreen></iframe>
     </div>
   </div>
 
+  <!-- SEARCH MODAL -->
   <div class="search-modal" id="search-modal">
     <span class="close" onclick="closeSearchModal()" style="color: red;">&times;</span>
     <input type="text" id="search-input" placeholder="Search for a movie or show..." oninput="searchTMDB()" />
     <div class="results" id="search-results"></div>
   </div>
 
+  <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-content">
       <p>&copy; 2025 My Website. All rights reserved.</p>
@@ -100,6 +113,7 @@
     </div>
   </footer>
 
+  <!-- GENRE MENU TOGGLE SCRIPT -->
   <script>
     function toggleMenu() {
       const genreMenu = document.getElementById('genreMenu');
