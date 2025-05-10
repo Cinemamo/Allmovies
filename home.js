@@ -124,3 +124,7 @@ init();
 document.querySelector('.disclaimer-toggle').addEventListener('click', () => {
   document.getElementById('disclaimerText').classList.toggle('active');
 });
+document.querySelector('.about-toggle').addEventListener('click', () => {
+  const section = document.getElementById('aboutSection');
+  section.style.display = section.style.display === 'none' ? 'block' : 'none';
+});
