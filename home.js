@@ -1,5 +1,3 @@
-
-
 const API_KEY = '27077b0de31705d036e5367a680c8d5f';
 const BASE_URL = 'https://api.themoviedb.org/3';
 const IMG_URL = 'https://image.tmdb.org/t/p/original';
@@ -121,5 +119,13 @@ async function init() {
   displayList(tvShows, 'tvshows-list');
   displayList(anime, 'anime-list');
 }
+
+// Hamburger toggle
+function toggleGenres() {
+  const nav = document.querySelector('.nav-links');
+  nav.classList.toggle('show');
+}
+
+document.getElementById('hamburger').addEventListener('click', toggleGenres);
 
 init();
