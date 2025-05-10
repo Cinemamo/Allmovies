@@ -2,16 +2,18 @@
     body { font-family: Arial, sans-serif; background: #111; color: #fff; }
 
     .navbar {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 10px; background: #222;
-    }
-
-    .navbar img {
-  height: 150px;
-  align-self: flex-start;
-  margin-left: 10px;
-  margin-top: 5px;
+  display: flex;
+  align-items: flex-start;
+  padding: 10px 20px;
+  background: #222;
+  gap: 20px;
 }
+
+.navbar img {
+  height: 150px;
+  margin: 0;
+}
+
 
     .nav-links { display: flex; align-items: center; gap: 40px; }
     .nav-links a { color: white; text-decoration: none; margin: 0 20px; }
