@@ -128,3 +128,12 @@ document.querySelector('.about-toggle').addEventListener('click', () => {
   const section = document.getElementById('aboutSection');
   section.style.display = section.style.display === 'none' ? 'block' : 'none';
 });
+function toggleDisclaimer() {
+  const dis = document.getElementById('disclaimer');
+  dis.style.display = dis.style.display === 'none' ? 'block' : 'none';
+}
+
+function toggleAbout() {
+  const about = document.getElementById('aboutSection');
+  about.style.display = about.style.display === 'none' ? 'block' : 'none';
+}
