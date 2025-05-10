@@ -344,3 +344,14 @@ body {
   text-align: center;
   padding: 0 10px;
 }
+.disclaimer-text {
+  display: none;
+  margin-top: 10px;
+  color: #ccc;
+  font-size: 14px;
+  text-align: center;
+}
+
+.disclaimer-text.active {
+  display: block;
+}
