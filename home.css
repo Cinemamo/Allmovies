@@ -16,8 +16,13 @@
 
 
 
-    .nav-links { display: flex; align-items: center; gap: 40px; }
-    .nav-links a { color: white; text-decoration: none; margin: 0 20px; }
+    .nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-left: 10px; /* ito ang dagdag para may konting layo mula sa kaliwa */
+}
+
 
     .search-bar {
       padding: 5px; border-radius: 5px; border: none;
