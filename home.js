@@ -56,14 +56,21 @@ function changeServer() {
   const type = currentItem.media_type === "movie" ? "movie" : "tv";
   let embedURL = "";
 
-  if (server === "apimocine") {
-    embedURL = `https://apimocine.vercel.app/${type}/${currentItem.id}?autoplay=true`;
-  } else if (server === "vidsrc.cc") {
-    embedURL = `https://vidsrc.cc/v2/embed/${type}/${currentItem.id}`;
-  } else if (server === "vidsrc.me") {
-    embedURL = `https://vidsrc.net/embed/${type}/?tmdb=${currentItem.id}`;
-  } else if (server === "player.videasy.net") {
-    embedURL = `https://player.videasy.net/${type}/${currentItem.id}`;
+  switch (server) {
+    case "apimocine":
+      embedURL = `https://apimocine.vercel.app/${type}/${currentItem.id}?autoplay=true`;
+      break;
+    case "vidsrc.cc":
+      embedURL = `https://vidsrc.cc/v2/embed/${type}/${currentItem.id}`;
+      break;
+    case "vidsrc.me":
+      embedURL = `https://vidsrc.net/embed/${type}/?tmdb=${currentItem.id}`;
+      break;
+    case "player.videasy.net":
+      embedURL = `https://player.videasy.net/${type}/${currentItem.id}`;
+      break;
+    default:
+      embedURL = ''; // You can set a default case if needed
   }
 
   document.getElementById('modal-video').src = embedURL;
@@ -114,7 +121,10 @@ async function init() {
   const tvShows = await fetchTrending('tv');
   const anime = await fetchTrendingAnime();
 
+  // Randomly display a movie as the banner
   displayBanner(movies[Math.floor(Math.random() * movies.length)]);
+  
+  // Display lists of movies, tv shows, and anime
   displayList(movies, 'movies-list');
   displayList(tvShows, 'tvshows-list');
   displayList(anime, 'anime-list');
