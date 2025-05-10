@@ -1,22 +1,14 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: Arial, sans-serif; background: #111; color: #fff; }
 
-    .navbar {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 5px 10px;
-  background: #222;
-}
-
-.navbar img {
+    .navbar img {
   height: 150px;
-  margin-bottom: 10px;
+  align-self: flex-start; /* para nasa itaas */
+  margin-left: 10px; /* para di masyadong dikit sa gilid */
+  margin-top: 5px; /* optional: konting space sa taas */
 }
 
-
-
-    .nav-links {
+ .nav-links {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
