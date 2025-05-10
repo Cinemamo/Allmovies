@@ -63,21 +63,19 @@ function changeServer() {
     case "vidsrc.net":
       embedURL = `https://vidsrc.net/embed/${type}/?tmdb=${currentItem.id}`;
       break;
-    case "videasy":
-      embedURL = `https://player.videasy.net/${type}/${currentItem.id}`;
-      break;
-    case "2embed":
-      embedURL = `https://www.2embed.to/embed/${type}?tmdb=${currentItem.id}`;
-      break;
     case "multiembed":
-      embedURL = `https://multiembed.mov/embed/${type}?tmdb=${currentItem.id}`;
+      if (type === "movie") {
+        embedURL = `https://multiembed.mov/?video_id=${currentItem.id}&tmdb=1`;
+      } else {
+        // Para sa TV shows, kailangan ang season at episode numbers
+        const season = currentItem.season_number || 1;
+        const episode = currentItem.episode_number || 1;
+        embedURL = `https://multiembed.mov/?video_id=${currentItem.id}&tmdb=1&s=${season}&e=${episode}`;
+      }
       break;
-    case "vidplay":
-      embedURL = `https://vidplay.online/embed/${type}/${currentItem.id}`;
-      break;
-    case "upstream":
-      embedURL = `https://upstream.to/embed-${currentItem.id}.html`;
-      break;
+    default:
+      alert("Walang suportadong server o mali ang URL.");
+      return;
   }
 
   document.getElementById('modal-video').src = embedURL;
