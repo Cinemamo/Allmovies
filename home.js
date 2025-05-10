@@ -1,17 +1,18 @@
-const API_KEY = '27077b0de31705d036e5367a680c8d5f';
-const BASE_URL = 'https://api.themoviedb.org/3';
-const IMG_URL = 'https://image.tmdb.org/t/p/original';
-let currentItem;
+const API_KEY = 'a1e72fd93ed59f56e6332813b9f8dcae';
+    const BASE_URL = 'https://api.themoviedb.org/3';
+    const IMG_URL = 'https://image.tmdb.org/t/p/original';
+    let currentItem;
 
-async function fetchTrending(type) {
-  const res = await fetch(`${BASE_URL}/trending/${type}/week?api_key=${API_KEY}`);
-  const data = await res.json();
-  return data.results;
-}
+    async function fetchTrending(type) {
+      const res = await fetch(`${BASE_URL}/trending/${type}/week?api_key=${API_KEY}`);
+      const data = await res.json();
+      return data.results;
+    }
 
-async function fetchTrendingAnime() {
+    async function fetchTrendingAnime() {
   let allResults = [];
 
+  // Fetch from multiple pages to get more anime (max 3 pages for demo)
   for (let page = 1; page <= 3; page++) {
     const res = await fetch(`${BASE_URL}/trending/tv/week?api_key=${API_KEY}&page=${page}`);
     const data = await res.json();
@@ -24,112 +25,99 @@ async function fetchTrendingAnime() {
   return allResults;
 }
 
-function displayBanner(item) {
-  document.getElementById('banner').style.backgroundImage = `url(${IMG_URL}${item.backdrop_path})`;
-  document.getElementById('banner-title').textContent = item.title || item.name;
-}
 
-function displayList(items, containerId) {
-  const container = document.getElementById(containerId);
-  container.innerHTML = '';
-  items.forEach(item => {
-    const img = document.createElement('img');
-    img.src = `${IMG_URL}${item.poster_path}`;
-    img.alt = item.title || item.name;
-    img.onclick = () => showDetails(item);
-    container.appendChild(img);
-  });
-}
+    function displayBanner(item) {
+      document.getElementById('banner').style.backgroundImage = `url(${IMG_URL}${item.backdrop_path})`;
+      document.getElementById('banner-title').textContent = item.title || item.name;
+    }
 
-function showDetails(item) {
-  currentItem = item;
-  document.getElementById('modal-title').textContent = item.title || item.name;
-  document.getElementById('modal-description').textContent = item.overview;
-  document.getElementById('modal-image').src = `${IMG_URL}${item.poster_path}`;
-  document.getElementById('modal-rating').innerHTML = '★'.repeat(Math.round(item.vote_average / 2));
-  changeServer();
-  document.getElementById('modal').style.display = 'flex';
-}
+    function displayList(items, containerId) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+      items.forEach(item => {
+        const img = document.createElement('img');
+        img.src = `${IMG_URL}${item.poster_path}`;
+        img.alt = item.title || item.name;
+        img.onclick = () => showDetails(item);
+        container.appendChild(img);
+      });
+    }
 
-function changeServer() {
-  const server = document.getElementById('server').value;
-  const type = currentItem.media_type === "movie" ? "movie" : "tv";
-  let embedURL = "";
+    function showDetails(item) {
+      currentItem = item;
+      document.getElementById('modal-title').textContent = item.title || item.name;
+      document.getElementById('modal-description').textContent = item.overview;
+      document.getElementById('modal-image').src = `${IMG_URL}${item.poster_path}`;
+      document.getElementById('modal-rating').innerHTML = '★'.repeat(Math.round(item.vote_average / 2));
+      changeServer();
+      document.getElementById('modal').style.display = 'flex';
+    }
 
-  switch(server) {
-    case "vidsrc.cc":
-      embedURL = `https://vidsrc.cc/v2/embed/${type}/${currentItem.id}`;
-      break;
-    case "vidsrc.net":
-      embedURL = `https://vidsrc.net/embed/${type}/?tmdb=${currentItem.id}`;
-      break;
-    case "multiembed":
-      if (type === "movie") {
-        embedURL = `https://multiembed.mov/?video_id=${currentItem.id}&tmdb=1`;
-      } else {
-        // Para sa TV shows, kailangan ang season at episode numbers
-        const season = currentItem.season_number || 1;
-        const episode = currentItem.episode_number || 1;
-        embedURL = `https://multiembed.mov/?video_id=${currentItem.id}&tmdb=1&s=${season}&e=${episode}`;
+    function changeServer() {
+      const server = document.getElementById('server').value;
+      const type = currentItem.media_type === "movie" ? "movie" : "tv";
+      let embedURL = "";
+
+      if (server === "vidsrc.cc") {
+        embedURL = `https://vidsrc.cc/v2/embed/${type}/${currentItem.id}`;
+      } else if (server === "vidsrc.me") {
+        embedURL = `https://vidsrc.net/embed/${type}/?tmdb=${currentItem.id}`;
+      } else if (server === "player.videasy.net") {
+        embedURL = `https://player.videasy.net/${type}/${currentItem.id}`;
       }
-      break;
-    default:
-      alert("Walang suportadong server o mali ang URL.");
-      return;
-  }
 
-  document.getElementById('modal-video').src = embedURL;
-}
+      document.getElementById('modal-video').src = embedURL;
+    }
 
-function closeModal() {
-  document.getElementById('modal').style.display = 'none';
-  document.getElementById('modal-video').src = '';
-}
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+      document.getElementById('modal-video').src = '';
+    }
 
-function openSearchModal() {
-  document.getElementById('search-modal').style.display = 'flex';
-  document.getElementById('search-input').focus();
-}
+    function openSearchModal() {
+      document.getElementById('search-modal').style.display = 'flex';
+      document.getElementById('search-input').focus();
+    }
 
-function closeSearchModal() {
-  document.getElementById('search-modal').style.display = 'none';
-  document.getElementById('search-results').innerHTML = '';
-}
+    function closeSearchModal() {
+      document.getElementById('search-modal').style.display = 'none';
+      document.getElementById('search-results').innerHTML = '';
+    }
 
-async function searchTMDB() {
-  const query = document.getElementById('search-input').value;
-  if (!query.trim()) {
-    document.getElementById('search-results').innerHTML = '';
-    return;
-  }
+    async function searchTMDB() {
+      const query = document.getElementById('search-input').value;
+      if (!query.trim()) {
+        document.getElementById('search-results').innerHTML = '';
+        return;
+      }
 
-  const res = await fetch(`${BASE_URL}/search/multi?api_key=${API_KEY}&query=${query}`);
-  const data = await res.json();
+      const res = await fetch(`${BASE_URL}/search/multi?api_key=${API_KEY}&query=${query}`);
+      const data = await res.json();
 
-  const container = document.getElementById('search-results');
-  container.innerHTML = '';
-  data.results.forEach(item => {
-    if (!item.poster_path) return;
-    const img = document.createElement('img');
-    img.src = `${IMG_URL}${item.poster_path}`;
-    img.alt = item.title || item.name;
-    img.onclick = () => {
-      closeSearchModal();
-      showDetails(item);
-    };
-    container.appendChild(img);
-  });
-}
+      const container = document.getElementById('search-results');
+      container.innerHTML = '';
+      data.results.forEach(item => {
+        if (!item.poster_path) return;
+        const img = document.createElement('img');
+        img.src = `${IMG_URL}${item.poster_path}`;
+        img.alt = item.title || item.name;
+        img.onclick = () => {
+          closeSearchModal();
+          showDetails(item);
+        };
+        container.appendChild(img);
+      });
+    }
 
-async function init() {
-  const movies = await fetchTrending('movie');
-  const tvShows = await fetchTrending('tv');
-  const anime = await fetchTrendingAnime();
+    async function init() {
+      const movies = await fetchTrending('movie');
+      const tvShows = await fetchTrending('tv');
+      const anime = await fetchTrendingAnime();
 
-  displayBanner(movies[Math.floor(Math.random() * movies.length)]);
-  displayList(movies, 'movies-list');
-  displayList(tvShows, 'tvshows-list');
-  displayList(anime, 'anime-list');
-}
+      displayBanner(movies[Math.floor(Math.random() * movies.length)]);
+      displayList(movies, 'movies-list');
+      displayList(tvShows, 'tvshows-list');
+      displayList(anime, 'anime-list');
+    }
 
-init();
+    init();
