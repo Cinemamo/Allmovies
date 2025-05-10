@@ -10,25 +10,8 @@
   <script defer src="/home.js"></script>
 </head>
 
-<script>
-  document.querySelector('.disclaimer-toggle').addEventListener('click', function() {
-    const text = document.querySelector('.disclaimer-text');
-    text.style.display = (text.style.display === 'none') ? 'block' : 'none';
-  });
-</script>
-
-  <!-- ABOUT BUTTON -->
-<button class="about-toggle">About Us</button>
-
-<!-- COLLAPSIBLE ABOUT SECTION -->
-<div class="about-section" id="aboutSection" style="display: none;">
-  <h2>About Us</h2>
-  <p>
-    Welcome to our movie streaming site! We offer a wide selection of trending and popular films for free. Our goal is to provide an easy and enjoyable viewing experience for all users. Please note that we do not host any of the content directly—videos are embedded from third-party sources.
-  </p>
-</div>
-
 <body>
+  <!-- NAVBAR -->
   <div class="navbar">
     <img src="logo.png" alt="LOGO HERE" />
     <div class="nav-links">
@@ -37,10 +20,12 @@
     </div>
   </div>
 
+  <!-- BANNER -->
   <div class="banner" id="banner">
     <h1 id="banner-title"></h1>
   </div>
 
+  <!-- TRENDING SECTIONS -->
   <div class="row">
     <h2>Trending Movies</h2>
     <div class="list" id="movies-list"></div>
@@ -56,6 +41,7 @@
     <div class="list" id="anime-list"></div>
   </div>
 
+  <!-- MODAL PLAYER -->
   <div class="modal" id="modal">
     <div class="modal-content">
       <span class="close" onclick="closeModal()" style="color: red;">&times;</span>
@@ -82,34 +68,34 @@
     </div>
   </div>
 
+  <!-- SEARCH MODAL -->
   <div class="search-modal" id="search-modal">
     <span class="close" onclick="closeSearchModal()" style="color: red;">&times;</span>
     <input type="text" id="search-input" placeholder="Search for a movie or show..." oninput="searchTMDB()" />
     <div class="results" id="search-results"></div>
   </div>
 
+  <!-- FOOTER -->
   <footer class="footer">
-  <div class="footer-content">
-    <div class="footer-links">
-      <button class="footer-button" onclick="toggleDisclaimer()">Disclaimer</button>
-      <button class="footer-button" onclick="toggleAbout()">About Us</button>
+    <div class="footer-content">
+      <div class="footer-links">
+        <button class="footer-button" onclick="toggleDisclaimer()">Disclaimer</button>
+        <button class="footer-button" onclick="toggleAbout()">About Us</button>
+      </div>
+
+      <div id="disclaimer" class="footer-box" style="display: none;">
+        <h3>Disclaimer</h3>
+        <p>The movies displayed on this site are embedded from third-party servers only.
+          We do not host or upload any of the content featured here.
+          If you have any copyright concerns,
+          please contact the respective hosting providers.</p>
+      </div>
+
+      <div id="aboutSection" class="footer-box" style="display: none;">
+        <h3>About Us</h3>
+        <p>We provide free access to popular and trending movies using public sources. We do not store or host any videos directly.</p>
+      </div>
     </div>
-    <div id="disclaimer" class="footer-box" style="display: none;">
-      <h3>Disclaimer</h3>
-      <p>The movies displayed on this site are embedded from third-party servers only.
-        We do not host or upload any of the content featured here.
-        If you have any copyright concerns, please contact the respective hosting providers..</p>
-    </div>
-    <div id="aboutSection" class="footer-box" style="display: none;">
-      <h3>About Us</h3>
-      <p>We provide free access to popular and trending movies using public sources. We do not store or host any videos directly.</p>
-    </div>
-  </div>
-</footer>
-
-
-
-
   </footer>
 </body>
 </html>
