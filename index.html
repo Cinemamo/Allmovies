@@ -11,20 +11,23 @@
 </head>
 <body>
   <div class="navbar">
-    <img src="logo.png" alt="LOGO HERE" />
+    <img src="logo.png" alt="Logo" />
+    <div class="hamburger" onclick="toggleMenu()">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </div>
     <div class="nav-links">
       <a href="index.html">Home</a>
-      <input type="text" class="search-bar" placeholder="Search..." onfocus="openSearchModal()" />
-      <div class="dropdown">
-        <button class="dropdown-btn">Genres</button>
-        <div class="dropdown-content">
-          <a href="#">Action</a>
-          <a href="#">Comedy</a>
-          <a href="#">Drama</a>
-          <a href="#">Horror</a>
-          <a href="#">Romance</a>
-          <a href="#">Thriller</a>
-        </div>
+      <a href="#">Movies</a>
+      <a href="#">TV Shows</a>
+      <a href="#">Anime</a>
+      <div class="genre-menu">
+        <a href="#">Action</a>
+        <a href="#">Comedy</a>
+        <a href="#">Drama</a>
+        <a href="#">Horror</a>
+        <a href="#">Romance</a>
       </div>
     </div>
   </div>
