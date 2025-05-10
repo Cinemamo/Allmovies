@@ -121,9 +121,3 @@ async function init() {
 }
 
 init();
-
-// Toggle for hamburger menu
-function toggleMenu() {
-  const navLinks = document.querySelector('.nav-links');
-  navLinks.classList.toggle('active'); // Toggle the "active" class to show or hide the menu
-}
