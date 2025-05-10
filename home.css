@@ -355,3 +355,21 @@ body {
 .disclaimer-text.active {
   display: block;
 }
+.about-toggle {
+  background-color: #444;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 20px auto;
+  display: block;
+}
+
+.about-section {
+  background: #222;
+  color: #ccc;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 10px;
+}
