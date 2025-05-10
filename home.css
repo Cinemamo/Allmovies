@@ -318,3 +318,29 @@ body {
     gap: 8px;
   }
 }
+/* Disclaimer Styles */
+.disclaimer-toggle {
+  background: transparent;
+  border: 1px solid red;
+  color: red;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.disclaimer-text {
+  display: none;
+  margin-top: 10px;
+}
+
+.disclaimer-text.active {
+  display: block;
+}
+
+.disclaimer-text p {
+  color: #ccc;
+  font-size: 14px;
+  text-align: center;
+  padding: 0 10px;
+}
