@@ -3,8 +3,6 @@ const BASE_URL = 'https://api.themoviedb.org/3';
 const IMG_URL = 'https://image.tmdb.org/t/p/original';
 let currentItem;
 
-let actionPage = 1;
-
 async function fetchTrending(type) {
   const res = await fetch(`${BASE_URL}/trending/${type}/week?api_key=${API_KEY}`);
   const data = await res.json();
@@ -13,6 +11,7 @@ async function fetchTrending(type) {
 
 async function fetchTrendingAnime() {
   let allResults = [];
+
   for (let page = 1; page <= 3; page++) {
     const res = await fetch(`${BASE_URL}/trending/tv/week?api_key=${API_KEY}&page=${page}`);
     const data = await res.json();
@@ -21,6 +20,7 @@ async function fetchTrendingAnime() {
     );
     allResults = allResults.concat(filtered);
   }
+
   return allResults;
 }
 
@@ -31,6 +31,7 @@ function displayBanner(item) {
 
 function displayList(items, containerId) {
   const container = document.getElementById(containerId);
+  container.innerHTML = '';
   items.forEach(item => {
     const img = document.createElement('img');
     img.src = `${IMG_URL}${item.poster_path}`;
@@ -55,12 +56,28 @@ function changeServer() {
   const type = currentItem.media_type === "movie" ? "movie" : "tv";
   let embedURL = "";
 
-  if (server === "vidsrc.cc") {
-    embedURL = `https://vidsrc.cc/v2/embed/${type}/${currentItem.id}`;
-  } else if (server === "vidsrc.me") {
-    embedURL = `https://vidsrc.net/embed/${type}/?tmdb=${currentItem.id}`;
-  } else if (server === "player.videasy.net") {
-    embedURL = `https://player.videasy.net/${type}/${currentItem.id}`;
+  switch(server) {
+    case "vidsrc.cc":
+      embedURL = `https://vidsrc.cc/v2/embed/${type}/${currentItem.id}`;
+      break;
+    case "vidsrc.net":
+      embedURL = `https://vidsrc.net/embed/${type}/?tmdb=${currentItem.id}`;
+      break;
+    case "videasy":
+      embedURL = `https://player.videasy.net/${type}/${currentItem.id}`;
+      break;
+    case "2embed":
+      embedURL = `https://www.2embed.to/embed/${type}?tmdb=${currentItem.id}`;
+      break;
+    case "multiembed":
+      embedURL = `https://multiembed.mov/embed/${type}?tmdb=${currentItem.id}`;
+      break;
+    case "vidplay":
+      embedURL = `https://vidplay.online/embed/${type}/${currentItem.id}`;
+      break;
+    case "upstream":
+      embedURL = `https://upstream.to/embed-${currentItem.id}.html`;
+      break;
   }
 
   document.getElementById('modal-video').src = embedURL;
@@ -115,21 +132,6 @@ async function init() {
   displayList(movies, 'movies-list');
   displayList(tvShows, 'tvshows-list');
   displayList(anime, 'anime-list');
-
-  loadMoviesByGenre(28, 'action-list', actionPage); // Initial load for Action
-}
-
-async function loadMoviesByGenre(genreId, containerId, page = 1) {
-  const res = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&page=${page}`);
-  const data = await res.json();
-  displayList(data.results, containerId);
-}
-
-function loadMoreMovies(type) {
-  if (type === 'action') {
-    actionPage++;
-    loadMoviesByGenre(28, 'action-list', actionPage);
-  }
 }
 
 init();
