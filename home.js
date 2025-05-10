@@ -121,3 +121,6 @@ async function init() {
 }
 
 init();
+document.querySelector('.disclaimer-toggle').addEventListener('click', () => {
+  document.getElementById('disclaimerText').classList.toggle('active');
+});
