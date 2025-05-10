@@ -10,6 +10,14 @@
   <script defer src="/home.js"></script>
 </head>
 
+<script>
+  document.querySelector('.disclaimer-toggle').addEventListener('click', function() {
+    const text = document.querySelector('.disclaimer-text');
+    text.style.display = (text.style.display === 'none') ? 'block' : 'none';
+  });
+</script>
+
+  
 <body>
   <div class="navbar">
     <img src="logo.png" alt="LOGO HERE" />
