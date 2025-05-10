@@ -3,33 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MovieBox Clone</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="stylesheet" href="home.css">
-  <script defer src="home.js"></script>
+  <title>FreeMovies</title>
+  <link rel="stylesheet" href="home.css" />
 </head>
 <body>
-  <header class="navbar">
+  <nav class="navbar">
     <div class="logo">
-      <img src="logo.png" alt="LOGO">
+      <img src="logo.png" alt="FreeMovies Logo" />
     </div>
-    <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
-    <nav class="nav-menu" id="nav-menu">
-      <a href="#">Action</a>
-      <a href="#">Adventure</a>
-      <a href="#">Animation</a>
-      <a href="#">Comedy</a>
-      <a href="#">Crime</a>
-      <a href="#">Drama</a>
-      <a href="#">Fantasy</a>
-      <a href="#">Horror</a>
-    </nav>
-    <input type="text" class="search-bar" placeholder="Search..." onfocus="openSearchModal()" />
-  </header>
+    <div class="nav-links" id="nav-links">
+      <a href="#" onclick="openSearchModal()">Search</a>
+    </div>
+    <div class="hamburger" onclick="toggleGenreMenu()">☰</div>
+  </nav>
 
-  <section class="banner" id="banner">
-    <h1 id="banner-title"></h1>
-  </section>
+  <div class="genre-menu" id="genre-menu">
+    <a href="#">Action</a>
+    <a href="#">Comedy</a>
+    <a href="#">Drama</a>
+    <a href="#">Horror</a>
+    <a href="#">Romance</a>
+    <a href="#">Sci-Fi</a>
+    <a href="#">Thriller</a>
+    <a href="#">Fantasy</a>
+    <a href="#">Animation</a>
+    <a href="#">Documentary</a>
+  </div>
+
+  <header class="banner" id="banner">
+    <h1 id="banner-title">Loading...</h1>
+  </header>
 
   <section class="row">
     <h2>Trending Movies</h2>
@@ -50,34 +53,47 @@
     <div class="modal-content">
       <span class="close" onclick="closeModal()">&times;</span>
       <div class="modal-body">
-        <img id="modal-image" src="" alt="" />
+        <img id="modal-image" src="" alt="Poster" />
         <div class="modal-text">
           <h2 id="modal-title"></h2>
           <div class="stars" id="modal-rating"></div>
           <p id="modal-description"></p>
+          <div class="server-selector">
+            <label for="server">Choose Server:</label>
+            <select id="server" onchange="changeServer()">
+              <option value="apimocine">Mocine</option>
+              <option value="vidsrc.cc">Vidsrc.cc</option>
+              <option value="vidsrc.me">Vidsrc.me</option>
+              <option value="player.videasy.net">Videasy</option>
+            </select>
+          </div>
         </div>
       </div>
-      <div class="server-selector">
-        <label for="server">Server:</label>
-        <select id="server" onchange="changeServer()">
-          <option value="apimocine">Apimocine</option>
-          <option value="vidsrc.cc">Vidsrc.cc</option>
-          <option value="vidsrc.me">Vidsrc.me</option>
-          <option value="player.videasy.net">Player.Videasy.net</option>
-        </select>
-      </div>
-      <iframe id="modal-video" frameborder="0" allowfullscreen allow="autoplay"></iframe>
+      <iframe id="modal-video" src="" allowfullscreen></iframe>
     </div>
   </div>
 
   <div class="search-modal" id="search-modal">
     <span class="close" onclick="closeSearchModal()">&times;</span>
-    <input type="text" id="search-input" placeholder="Search for a movie or show..." oninput="searchTMDB()" />
+    <input type="text" id="search-input" placeholder="Search for movies or shows..." oninput="searchTMDB()" />
     <div class="results" id="search-results"></div>
   </div>
 
   <footer class="footer">
-    <p>&copy; 2025 MovieBox Clone. All rights reserved.</p>
+    <p>&copy; 2025 FreeMovies. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="#">Terms</a>
+      <a href="#">Privacy</a>
+      <a href="#">Contact</a>
+    </div>
   </footer>
+
+  <script>
+    function toggleGenreMenu() {
+      const menu = document.getElementById('genre-menu');
+      menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+    }
+  </script>
+  <script src="home.js"></script>
 </body>
 </html>
