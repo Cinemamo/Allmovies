@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Website</title>
+  <title>Nextflix Clone</title>
   <link rel="stylesheet" href="/home.css">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <script defer src="/home.js"></script>
 </head>
 <body>
-  <!-- Navbar -->
   <header class="navbar">
     <div class="logo">Nextflix</div>
     <nav class="nav-links">
@@ -25,7 +24,6 @@
     <div class="hamburger" id="hamburger">&#9776;</div>
   </header>
 
-  <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
       <h1>Watch HD Movies and TV Shows</h1>
@@ -33,7 +31,6 @@
     </div>
   </section>
 
-  <!-- Movie Sections -->
   <main>
     <section class="movie-section">
       <h2>Trending</h2>
@@ -51,10 +48,13 @@
     </section>
   </main>
 
-  <!-- Modal Player -->
   <div id="modalPlayer" class="modal">
     <div class="modal-content">
       <span class="close" id="closeModal">&times;</span>
+      <div class="server-switcher">
+        <label for="serverSelect">Choose Server:</label>
+        <select id="serverSelect"></select>
+      </div>
       <iframe id="videoFrame" src="" allowfullscreen></iframe>
     </div>
   </div>
