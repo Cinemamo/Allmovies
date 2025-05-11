@@ -2,6 +2,17 @@ const apiKey = "27077b0de31705d036e5367a680c8d5f";
 const trendingContainer = document.getElementById("trendingMovies");
 const topImdbContainer = document.getElementById("topImdbMovies");
 const newReleaseContainer = document.getElementById("newReleaseMovies");
+const modal = document.getElementById("modalPlayer");
+const iframe = document.getElementById("videoFrame");
+const serverSelect = document.getElementById("serverSelect");
+
+const embedServers = {
+  vidsrc: (imdb_id) => `https://vidsrc.to/embed/movie/${imdb_id}`,
+  multiembed: (imdb_id) => `https://multiembed.mov/?video_id=${imdb_id}&tmdb=1`,
+  twoEmbed: (tmdb_id) => `https://www.2embed.to/embed/tmdb/movie?id=${tmdb_id}`,
+  vidplay: (imdb_id) => `https://vidplay.to/embed/${imdb_id}`,
+  upcloud: (imdb_id) => `https://upcloud.lol/embed/${imdb_id}`,
+};
 
 function fetchMovies(url, container) {
   fetch(url)
@@ -15,10 +26,8 @@ function fetchMovies(url, container) {
 
         const div = document.createElement("div");
         div.classList.add("movie-card");
-        div.innerHTML = `
-          <img src="${posterPath}" alt="${movie.title}" />
-        `;
-        div.addEventListener("click", () => openModal(movie.id));
+        div.innerHTML = `<img src="${posterPath}" alt="${movie.title}" />`;
+        div.addEventListener("click", () => openModal(movie));
         container.appendChild(div);
       });
     })
@@ -28,29 +37,33 @@ function fetchMovies(url, container) {
     });
 }
 
-function openModal(tmdbId) {
-  const modal = document.getElementById("modalPlayer");
-  const iframe = document.getElementById("videoFrame");
-
-  fetch(`https://api.themoviedb.org/3/movie/${tmdbId}/external_ids?api_key=${apiKey}`)
+function openModal(movie) {
+  // Get IMDb ID from TMDB
+  fetch(`https://api.themoviedb.org/3/movie/${movie.id}?api_key=${apiKey}`)
     .then((res) => res.json())
     .then((data) => {
-      const imdbId = data.imdb_id;
-      if (imdbId) {
-        iframe.src = `https://vidsrc.to/embed/movie/${imdbId}`;
-        modal.style.display = "flex";
-      } else {
-        alert("Walang IMDb ID para sa movie na ito.");
-      }
+      const imdb_id = data.imdb_id;
+      const tmdb_id = movie.id;
+
+      serverSelect.innerHTML = "";
+      Object.entries(embedServers).forEach(([name, buildUrl]) => {
+        const option = document.createElement("option");
+        option.value = buildUrl(name === "twoEmbed" ? tmdb_id : imdb_id);
+        option.textContent = name.toUpperCase();
+        serverSelect.appendChild(option);
+      });
+
+      serverSelect.onchange = () => {
+        iframe.src = serverSelect.value;
+      };
+
+      iframe.src = serverSelect.value;
+      modal.style.display = "flex";
     })
-    .catch((error) => {
-      console.error("Error getting IMDb ID:", error);
-    });
+    .catch((err) => console.error("Error getting IMDb ID:", err));
 }
 
 document.getElementById("closeModal").onclick = () => {
-  const modal = document.getElementById("modalPlayer");
-  const iframe = document.getElementById("videoFrame");
   modal.style.display = "none";
   iframe.src = "";
 };
