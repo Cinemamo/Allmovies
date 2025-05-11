@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-  
-  
+<head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Website</title>
   <link rel="stylesheet" href="/home.css">
   <link rel="manifest" href="manifest.json">
@@ -88,7 +86,7 @@
 <body>
   <div class="navbar">
     <img src="logo.png" alt="LOGO HERE" />
-    
+
     <div class="hamburger-container">
       <div class="hamburger" onclick="toggleGenreMenu()">
         <i class="fas fa-bars"></i>
@@ -147,6 +145,9 @@
           <option value="vidsrc.cc">Vidsrc.cc</option>
           <option value="vidsrc.me">Vidsrc.me</option>
           <option value="player.videasy.net">Player.Videasy.net</option>
+          <option value="fembed">Fembed</option>
+          <option value="streamtape">Streamtape</option>
+          <option value="doodstream">Doodstream</option>
         </select>
       </div>
 
@@ -176,6 +177,44 @@
       const menu = document.getElementById('genreMenu');
       menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
     }
+
+    function changeServer() {
+      const server = document.getElementById('server').value;
+      const iframe = document.getElementById('modal-video');
+      
+      let videoURL = '';
+
+      switch(server) {
+        case 'apimocine':
+          videoURL = 'https://apimocine.com/embed/example';
+          break;
+        case 'vidsrc.cc':
+          videoURL = 'https://vidsrc.cc/player/example';
+          break;
+        case 'vidsrc.me':
+          videoURL = 'https://vidsrc.me/player/example';
+          break;
+        case 'player.videasy.net':
+          videoURL = 'https://player.videasy.net/example';
+          break;
+        case 'fembed':
+          videoURL = 'https://fembed.com/v/example';
+          break;
+        case 'streamtape':
+          videoURL = 'https://streamtape.com/v/example';
+          break;
+        case 'doodstream':
+          videoURL = 'https://doodstream.com/v/example';
+          break;
+      }
+
+      iframe.src = videoURL;
+    }
+
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
   </script>
 </body>
+
 </html>
