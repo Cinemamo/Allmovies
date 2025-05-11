@@ -90,6 +90,7 @@ function changeServer() {
   const type = currentItem.media_type === "movie" ? "movie" : "tv";
   let embedURL = "";
 
+  // Existing servers
   if (server === "apimocine") {
     embedURL = `https://apimocine.vercel.app/${type}/${currentItem.id}?autoplay=true`;
   } else if (server === "vidsrc.cc") {
@@ -100,10 +101,25 @@ function changeServer() {
     embedURL = `https://player.videasy.net/${type}/${currentItem.id}`;
   }
 
+  // Mga bagong server
+  else if (server === "vidsrc") {
+    embedURL = `https://vidsrc.to/embed/${type}/${currentItem.id}`;
+  } else if (server === "multiembed") {
+    embedURL = `https://multiembed.mov/?video_id=${currentItem.id}&tmdb=1`;
+  } else if (server === "twoEmbed") {
+    embedURL = `https://www.2embed.to/embed/tmdb/${type}?id=${currentItem.id}`;
+  } else if (server === "vidplay") {
+    embedURL = `https://vidplay.to/embed/${currentItem.id}`;
+  } else if (server === "upcloud") {
+    embedURL = `https://upcloud.lol/embed/${currentItem.id}`;
+  }
+
+  // I-set ang iframe src gamit ang napiling server embed URL
   const iframe = document.getElementById('modal-video');
   iframe.src = embedURL;
-  iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
+  iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups allow-forms');
 }
+
 
 // Close the modal
 function closeModal() {
