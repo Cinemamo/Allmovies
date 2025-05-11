@@ -3,26 +3,73 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Movie Website</title>
-  <link rel="stylesheet" href="home.css" />
+  <title>My Website</title>
+  <link rel="stylesheet" href="/home.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script defer src="/home.js"></script>
+  <style>
+    .hamburger {
+      font-size: 26px;
+      cursor: pointer;
+      display: none;
+      color: white;
+      margin-left: auto;
+      margin-right: 10px;
+    }
+
+    .genre-menu {
+      display: none;
+      flex-direction: column;
+      background: #111;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      width: 100%;
+      z-index: 999;
+    }
+
+    .genre-menu a {
+      color: white;
+      padding: 12px;
+      text-decoration: none;
+      border-bottom: 1px solid #333;
+    }
+
+    @media (max-width: 768px) {
+      .hamburger {
+        display: block;
+      }
+
+      .nav-links {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
+
 <body>
   <div class="navbar">
-    <div class="logo">
-      <img src="your-logo.png" alt="Logo" style="height: 60px;" />
-    </div>
+    <img src="logo.png" alt="LOGO HERE" style="height: 60px;" />
     
-    <div class="hamburger" onclick="toggleMenu()">☰</div>
-    
-    <div class="nav-links" id="genreMenu">
-      <a href="#">Action</a>
-      <a href="#">Comedy</a>
-      <a href="#">Drama</a>
-      <a href="#">Horror</a>
-      <a href="#">Romance</a>
-      <a href="#">Sci-Fi</a>
-      <a href="#">Thriller</a>
+    <div class="hamburger" onclick="toggleGenreMenu()">
+      <i class="fas fa-bars"></i>
     </div>
+
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <input type="text" class="search-bar" placeholder="Search..." onfocus="openSearchModal()" />
+    </div>
+  </div>
+
+  <div class="genre-menu" id="genreMenu">
+    <a href="#">Action</a>
+    <a href="#">Comedy</a>
+    <a href="#">Drama</a>
+    <a href="#">Horror</a>
+    <a href="#">Romance</a>
+    <a href="#">Sci-Fi</a>
+    <a href="#">Thriller</a>
   </div>
 
   <div class="banner" id="banner">
@@ -44,12 +91,51 @@
     <div class="list" id="anime-list"></div>
   </div>
 
-  <!-- Modal Section (unchanged) -->
-  <!-- Search Modal (unchanged) -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()" style="color: red;">&times;</span>
+      <div class="modal-body">
+        <img id="modal-image" src="" alt="" />
+        <div class="modal-text">
+          <h2 id="modal-title"></h2>
+          <div class="stars" id="modal-rating"></div>
+          <p id="modal-description"></p>
+        </div>
+      </div>
+      
+      <div class="server-selector">
+        <label for="server">Change Server:</label>
+        <select id="server" onchange="changeServer()">
+          <option value="apimocine">Apimocine</option>
+          <option value="vidsrc.cc">Vidsrc.cc</option>
+          <option value="vidsrc.me">Vidsrc.me</option>
+          <option value="player.videasy.net">Player.Videasy.net</option>
+        </select>
+      </div>
 
-  <script src="home.js"></script>
+      <iframe id="modal-video" width="100%" height="315" frameborder="0" allowfullscreen allow="autoplay"></iframe>
+    </div>
+  </div>
+
+  <div class="search-modal" id="search-modal">
+    <span class="close" onclick="closeSearchModal()" style="color: red;">&times;</span>
+    <input type="text" id="search-input" placeholder="Search for a movie or show..." oninput="searchTMDB()" />
+    <div class="results" id="search-results"></div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <p>&copy; 2025 My Website. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="#">Disclaimer</a>
+        <a href="#">About Us</a>
+        <a href="#">Contact Us</a>
+      </div>
+    </div>
+  </footer>
+
   <script>
-    function toggleMenu() {
+    function toggleGenreMenu() {
       const menu = document.getElementById('genreMenu');
       menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
     }
