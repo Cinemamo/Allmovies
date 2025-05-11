@@ -9,19 +9,42 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <script defer src="/home.js"></script>
   <style>
-    .hamburger {
-      font-size: 26px;
-      cursor: pointer;
-      display: none;
+    .navbar {
+      display: flex;
+      align-items: center;
+      background: #111;
       color: white;
+      padding: 10px;
+      position: relative;
+    }
+
+    .navbar img {
+      height: 60px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 15px;
       margin-left: auto;
-      margin-right: 10px;
+    }
+
+    .search-bar {
+      padding: 5px;
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 26px;
+      color: white;
+      cursor: pointer;
+      margin-left: auto;
     }
 
     .genre-menu {
       display: none;
       flex-direction: column;
-      background: #111;
+      background: #222;
       position: absolute;
       top: 60px;
       left: 0;
@@ -37,12 +60,12 @@
     }
 
     @media (max-width: 768px) {
-      .hamburger {
-        display: block;
+      .nav-links {
+        display: none;
       }
 
-      .nav-links {
-        flex-direction: column;
+      .hamburger {
+        display: block;
       }
     }
   </style>
@@ -50,12 +73,10 @@
 
 <body>
   <div class="navbar">
-    <img src="logo.png" alt="LOGO HERE" style="height: 60px;" />
-    
+    <img src="logo.png" alt="LOGO HERE" />
     <div class="hamburger" onclick="toggleGenreMenu()">
       <i class="fas fa-bars"></i>
     </div>
-
     <div class="nav-links">
       <a href="index.html">Home</a>
       <input type="text" class="search-bar" placeholder="Search..." onfocus="openSearchModal()" />
@@ -102,7 +123,7 @@
           <p id="modal-description"></p>
         </div>
       </div>
-      
+
       <div class="server-selector">
         <label for="server">Change Server:</label>
         <select id="server" onchange="changeServer()">
