@@ -55,4 +55,6 @@ document.getElementById("closeModal").onclick = () => {
   iframe.src = "";
 };
 
-fetchMovies(`https://
+fetchMovies(`https://api.themoviedb.org/3/trending/movie/day?api_key=${apiKey}`, trendingContainer);
+fetchMovies(`https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}`, topImdbContainer);
+fetchMovies(`https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}`, newReleaseContainer);
