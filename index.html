@@ -29,25 +29,10 @@
       margin-left: auto;
     }
 
-    .search-bar {
-      padding: 5px;
-      border-radius: 50%;
-      background-color: #222;
-      color: white;
-      border: none;
-      display: inline-block;
-      width: 35px;
-      height: 35px;
-      outline: none;
-    }
-
-    .search-bar:focus {
-      width: 200px;
-    }
-
+    /* Search Bar Style */
     .search-bar-btn {
       font-size: 20px;
-      display: flex;
+      display: inline-flex;
       justify-content: center;
       align-items: center;
       cursor: pointer;
@@ -56,16 +41,18 @@
       color: white;
       border-radius: 50%;
       border: 2px solid white;
+      margin-right: 20px; /* Space from the hamburger */
     }
 
+    /* Hamburger Menu */
     .hamburger {
+      font-size: 20px; /* Smaller size */
       display: none;
-      font-size: 26px;
-      color: white;
       cursor: pointer;
-      margin-left: auto;
+      color: white;
     }
 
+    /* Genre Menu */
     .genre-menu {
       display: none;
       flex-direction: column;
@@ -100,10 +87,12 @@
   <div class="navbar">
     <img src="logo.png" alt="LOGO HERE" />
     
+    <!-- Search Icon Button Above Hamburger Menu -->
     <div class="search-bar-btn" onclick="openSearchModal()">
       <i class="fas fa-search"></i>
     </div>
 
+    <!-- Hamburger Menu -->
     <div class="hamburger" onclick="toggleGenreMenu()">
       <i class="fas fa-bars"></i>
     </div>
