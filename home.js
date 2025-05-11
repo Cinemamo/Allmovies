@@ -34,6 +34,6 @@ document.getElementById("closeModal").onclick = () => {
   iframe.src = "";
 };
 
-fetchMovies(`https://api.themoviedb.org/3/trending/movie/day?api_key=${apiKey}`, trendingContainer);
-fetchMovies(`https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}`, topImdbContainer);
-fetchMovies(`https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}`, newReleaseContainer);
+fetchMovies(`https://api.themoviedb.org/3/trending/movie/day?api_key=${27077b0de31705d036e5367a680c8d5f}`, trendingContainer);
+fetchMovies(`https://api.themoviedb.org/3/movie/top_rated?api_key=${27077b0de31705d036e5367a680c8d5f}`, topImdbContainer);
+fetchMovies(`https://api.themoviedb.org/3/movie/now_playing?api_key=${27077b0de31705d036e5367a680c8d5f}`, newReleaseContainer);
