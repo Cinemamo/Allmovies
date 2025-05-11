@@ -43,6 +43,7 @@ document.getElementById("closeModal").onclick = () => {
 };
 
 // Load sections
-fetchMovies(`https://api.themoviedb.org/3/trending/movie/day?api_key=${apikey}`, trendingContainer);
-fetchMovies(`https://api.themoviedb.org/3/movie/top_rated?api_key=${apikey}`, topImdbContainer);
-fetchMovies(`https://api.themoviedb.org/3/movie/now_playing?api_key=${apikey}`, newReleaseContainer);
+fetchMovies(`https://api.themoviedb.org/3/trending/movie/day?api_key=${apiKey}`, trendingContainer);
+fetchMovies(`https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}`, topImdbContainer);
+fetchMovies(`https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}`, newReleaseContainer);
+y
