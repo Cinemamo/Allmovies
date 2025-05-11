@@ -29,7 +29,6 @@
       margin-left: auto;
     }
 
-    /* Hamburger and Search Icon Wrapper */
     .hamburger-container {
       display: flex;
       flex-direction: column;
@@ -37,14 +36,12 @@
       margin-left: auto;
     }
 
-    /* Hamburger Menu */
     .hamburger {
-      font-size: 20px; /* Smaller size */
+      font-size: 20px;
       cursor: pointer;
       color: white;
     }
 
-    /* Search Icon Style */
     .search-bar-btn {
       font-size: 20px;
       display: inline-flex;
@@ -52,10 +49,9 @@
       align-items: center;
       cursor: pointer;
       color: white;
-      margin-top: 10px; /* Move search icon below hamburger */
+      margin-top: 10px;
     }
 
-    /* Genre Menu */
     .genre-menu {
       display: none;
       flex-direction: column;
@@ -90,22 +86,13 @@
   <div class="navbar">
     <img src="logo.png" alt="LOGO HERE" />
     
-    <!-- Hamburger and Search Icon Wrapper -->
     <div class="hamburger-container">
-      <!-- Hamburger Menu -->
       <div class="hamburger" onclick="toggleGenreMenu()">
         <i class="fas fa-bars"></i>
       </div>
-      
-      <!-- Search Icon -->
       <div class="search-bar-btn" onclick="openSearchModal()">
         <i class="fas fa-search"></i>
       </div>
-    </div>
-
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <input type="text" class="search-bar" placeholder="Search..." onfocus="openSearchModal()" />
     </div>
   </div>
 
