@@ -13,6 +13,15 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("search-input").addEventListener("input", searchTMDB);
   document.getElementById("server").addEventListener("change", changeServer);
   document.querySelector(".close").addEventListener("click", closeModal);
+
+  // Magdagdag ng event listeners para sa bawat genre item
+  document.querySelectorAll('.genre-item').forEach(item => {
+    item.addEventListener('click', async () => {
+      const genreId = item.getAttribute('data-genre-id');
+      const movies = await fetchMoviesByGenre(genreId);
+      displayList(movies, 'movies-list');
+    });
+  });
 });
 
 async function fetchTrending(type) {
@@ -32,6 +41,12 @@ async function fetchTrendingAnime() {
     results = results.concat(filtered);
   }
   return results;
+}
+
+async function fetchMoviesByGenre(genreId) {
+  const res = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}`);
+  const data = await res.json();
+  return data.results;
 }
 
 function displayBanner(item) {
