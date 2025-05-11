@@ -1,66 +1,181 @@
-t<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
+
+  <head>
+  
+  
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Nextflix Clone</title>
+  <title>My Website</title>
   <link rel="stylesheet" href="/home.css">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <script defer src="/home.js"></script>
+  <style>
+    .navbar {
+      display: flex;
+      align-items: center;
+      background: #111;
+      color: white;
+      padding: 10px;
+      position: relative;
+    }
+
+    .navbar img {
+      height: 60px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-left: auto;
+    }
+
+    .hamburger-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      margin-left: auto;
+    }
+
+    .hamburger {
+      font-size: 20px;
+      cursor: pointer;
+      color: white;
+    }
+
+    .search-bar-btn {
+      font-size: 20px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      color: white;
+      margin-top: 10px;
+    }
+
+    .genre-menu {
+      display: none;
+      flex-direction: column;
+      background: #222;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      width: 100%;
+      z-index: 999;
+    }
+
+    .genre-menu a {
+      color: white;
+      padding: 12px;
+      text-decoration: none;
+      border-bottom: 1px solid #333;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hamburger {
+        display: block;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <!-- Navbar -->
-  <header class="navbar">
-    <div class="logo">Nextflix</div>
-    <nav class="nav-links">
-      <a href="#">Home</a>
-      <a href="#">Trending</a>
-      <a href="#">Top IMDB</a>
-      <a href="#">Genres</a>
-    </nav>
-    <div class="search-container">
-      <input type="text" id="searchInput" placeholder="Search movies..." />
-    </div>
-    <div class="hamburger" id="hamburger">&#9776;</div>
-  </header>
-
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Watch HD Movies and TV Shows</h1>
-      <p>Stream your favorite titles anytime, anywhere.</p>
-    </div>
-  </section>
-
-  <!-- Movie Sections -->
-  <main>
-    <section class="movie-section">
-      <h2>Trending</h2>
-      <div class="movie-grid" id="trendingMovies"></div>
-    </section>
-
-    <section class="movie-section">
-      <h2>Top IMDB</h2>
-      <div class="movie-grid" id="topImdbMovies"></div>
-    </section>
-
-    <section class="movie-section">
-      <h2>New Releases</h2>
-      <div class="movie-grid" id="newReleaseMovies"></div>
-    </section>
-  </main>
-
-  <!-- Modal Player -->
-  <div id="modalPlayer" class="modal">
-    <div class="modal-content">
-      <span class="close" id="closeModal">&times;</span>
-      <div class="server-switcher">
-        <label for="serverSelect">Choose Server:</label>
-        <select id="serverSelect"></select>
+  <div class="navbar">
+    <img src="logo.png" alt="LOGO HERE" />
+    
+    <div class="hamburger-container">
+      <div class="hamburger" onclick="toggleGenreMenu()">
+        <i class="fas fa-bars"></i>
       </div>
-      <iframe id="videoFrame" src="" allowfullscreen></iframe>
+      <div class="search-bar-btn" onclick="openSearchModal()">
+        <i class="fas fa-search"></i>
+      </div>
     </div>
   </div>
+
+  <div class="genre-menu" id="genreMenu">
+    <a href="#">Action</a>
+    <a href="#">Comedy</a>
+    <a href="#">Drama</a>
+    <a href="#">Horror</a>
+    <a href="#">Romance</a>
+    <a href="#">Sci-Fi</a>
+    <a href="#">Thriller</a>
+  </div>
+
+  <div class="banner" id="banner">
+    <h1 id="banner-title"></h1>
+  </div>
+
+  <div class="row">
+    <h2>Trending Movies</h2>
+    <div class="list" id="movies-list"></div>
+  </div>
+
+  <div class="row">
+    <h2>Trending TV Shows</h2>
+    <div class="list" id="tvshows-list"></div>
+  </div>
+
+  <div class="row">
+    <h2>Trending Anime</h2>
+    <div class="list" id="anime-list"></div>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()" style="color: red;">&times;</span>
+      <div class="modal-body">
+        <img id="modal-image" src="" alt="" />
+        <div class="modal-text">
+          <h2 id="modal-title"></h2>
+          <div class="stars" id="modal-rating"></div>
+          <p id="modal-description"></p>
+        </div>
+      </div>
+
+      <div class="server-selector">
+        <label for="server">Change Server:</label>
+        <select id="server" onchange="changeServer()">
+          <option value="apimocine">Apimocine</option>
+          <option value="vidsrc.cc">Vidsrc.cc</option>
+          <option value="vidsrc.me">Vidsrc.me</option>
+          <option value="player.videasy.net">Player.Videasy.net</option>
+        </select>
+      </div>
+
+      <iframe id="modal-video" width="100%" height="315" frameborder="0" allowfullscreen allow="autoplay"></iframe>
+    </div>
+  </div>
+
+  <div class="search-modal" id="search-modal">
+    <span class="close" onclick="closeSearchModal()" style="color: red;">&times;</span>
+    <input type="text" id="search-input" placeholder="Search for a movie or show..." oninput="searchTMDB()" />
+    <div class="results" id="search-results"></div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <p>&copy; 2025 My Website. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="#">Disclaimer</a>
+        <a href="#">About Us</a>
+        <a href="#">Contact Us</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleGenreMenu() {
+      const menu = document.getElementById('genreMenu');
+      menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+    }
+  </script>
 </body>
 </html>
