@@ -1,51 +1,138 @@
-const apiKey = "27077b0de31705d036e5367a680c8d5f";
+const API_KEY = '27077b0de31705d036e5367a680c8d5f';
+const BASE_URL = 'https://api.themoviedb.org/3';
+const IMG_URL = 'https://image.tmdb.org/t/p/original';
+let currentItem;
 
-function fetchMovies(url, container) {
-  fetch(url)
-    .then((res) => res.json())
-    .then((data) => {
-      container.innerHTML = "";
-      data.results.forEach((movie) => {
-        const poster = movie.poster_path
-          ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-          : "https://via.placeholder.com/300x450?text=No+Image";
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("menu-toggle").addEventListener("click", () => {
+    document.querySelector(".nav-links").classList.toggle("show");
+  });
 
-        const div = document.createElement("div");
-        div.classList.add("movie-card");
-        div.innerHTML = `<img src="${poster}" alt="${movie.title}" />`;
-        div.addEventListener("click", () => openModal(movie.id));
-        container.appendChild(div);
-      });
+  document.getElementById("search-icon").addEventListener("click", openSearchModal);
+  document.getElementById("search-close").addEventListener("click", closeSearchModal);
+  document.getElementById("search-input").addEventListener("input", searchTMDB);
+  document.getElementById("server").addEventListener("change", changeServer);
+  document.querySelector(".close").addEventListener("click", closeModal);
+
+  // Magdagdag ng event listeners para sa bawat genre item
+  document.querySelectorAll('.genre-item').forEach(item => {
+    item.addEventListener('click', async () => {
+      const genreId = item.getAttribute('data-genre-id');
+      const movies = await fetchMoviesByGenre(genreId);
+      displayList(movies, 'movies-list');
     });
+  });
+});
+
+async function fetchTrending(type) {
+  const res = await fetch(`${BASE_URL}/trending/${type}/week?api_key=${API_KEY}`);
+  const data = await res.json();
+  return data.results;
 }
 
-function openModal(tmdbId) {
-  const modal = document.getElementById("modalPlayer");
-  const iframe = document.getElementById("videoFrame");
-
-  // Convert TMDB ID to IMDb ID
-  fetch(`https://api.themoviedb.org/3/movie/${tmdbId}/external_ids?api_key=${apiKey}`)
-    .then((res) => res.json())
-    .then((data) => {
-      const imdbId = data.imdb_id;
-      if (imdbId) {
-        iframe.src = `https://vidsrc.to/embed/movie/${imdbId}`;
-        modal.style.display = "flex";
-      } else {
-        alert("No video source available.");
-      }
-    });
+async function fetchTrendingAnime() {
+  let results = [];
+  for (let page = 1; page <= 3; page++) {
+    const res = await fetch(`${BASE_URL}/trending/tv/week?api_key=${API_KEY}&page=${page}`);
+    const data = await res.json();
+    const filtered = data.results.filter(item =>
+      item.original_language === 'ja' && item.genre_ids.includes(16)
+    );
+    results = results.concat(filtered);
+  }
+  return results;
 }
 
-// Close Modal
-document.getElementById("closeModal").onclick = () => {
-  const modal = document.getElementById("modalPlayer");
-  const iframe = document.getElementById("videoFrame");
-  iframe.src = "";
-  modal.style.display = "none";
-};
+async function fetchMoviesByGenre(genreId) {
+  const res = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}`);
+  const data = await res.json();
+  return data.results;
+}
 
-// Fetch sections
-fetchMovies(`https://api.themoviedb.org/3/trending/movie/day?api_key=${apiKey}`, document.getElementById("trendingMovies"));
-fetchMovies(`https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}`, document.getElementById("topImdbMovies"));
-fetchMovies(`https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}`, document.getElementById("newReleaseMovies"));
+function displayBanner(item) {
+  document.getElementById('banner').style.backgroundImage = `url(${IMG_URL}${item.backdrop_path})`;
+  document.getElementById('banner-title').textContent = item.title || item.name;
+}
+
+function displayList(items, containerId) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  items.forEach(item => {
+    const img = document.createElement('img');
+    img.src = `${IMG_URL}${item.poster_path}`;
+    img.alt = item.title || item.name;
+    img.addEventListener('click', () => showDetails(item));
+    container.appendChild(img);
+  });
+}
+
+function showDetails(item) {
+  currentItem = item;
+  document.getElementById('modal-title').textContent = item.title || item.name;
+  document.getElementById('modal-description').textContent = item.overview;
+  document.getElementById('modal-image').src = `${IMG_URL}${item.poster_path}`;
+  document.getElementById('modal-rating').innerHTML = '★'.repeat(Math.round(item.vote_average / 2));
+  changeServer();
+  document.getElementById('modal').style.display = 'flex';
+}
+
+function changeServer() {
+  const server = document.getElementById('server').value;
+  const type = currentItem.media_type === "movie" ? "movie" : "tv";
+  let embedURL = "";
+
+  if (server === "apimocine") {
+    embedURL = `https://apimocine.vercel.app/${type}/${currentItem.id}?autoplay=true`;
+  } else if (server === "vidsrc.cc") {
+    embedURL = `https://vidsrc.cc/v2/embed/${type}/${currentItem.id}`;
+  } else if (server === "vidsrc.me") {
+    embedURL = `https://vidsrc.net/embed/${type}/?tmdb=${currentItem.id}`;
+  } else if (server === "player.videasy.net") {
+    embedURL = `https://player.videasy.net/${type}/${currentItem.id}`;
+  }
+
+  const iframe = document.getElementById('modal-video');
+  iframe.src = embedURL;
+  iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
+}
+
+function closeModal() {
+  document.getElementById('modal').style.display = 'none';
+  const iframe = document.getElementById('modal-video');
+  iframe.src = '';
+}
+
+function openSearchModal() {
+  document.getElementById('search-modal').style.display = 'flex';
+  document.getElementById('search-input').focus();
+}
+
+function closeSearchModal() {
+  document.getElementById('search-modal').style.display = 'none';
+  document.getElementById('search-results').innerHTML = '';
+}
+
+async function searchTMDB() {
+  const query = document.getElementById('search-input').value;
+  if (!query.trim()) return;
+
+  const res = await fetch(`${BASE_URL}/search/multi?api_key=${API_KEY}&query=${query}`);
+  const data = await res.json();
+
+  const container = document.getElementById('search-results');
+  container.innerHTML = '';
+  data.results.forEach(item => {
+    if (!item.poster_path) return;
+    const img = document.createElement('img');
+    img.src = `${IMG_URL}${item.poster_path}`;
+    img.alt = item.title || item.name;
+    img.addEventListener("click", () => {
+      closeSearchModal();
+      showDetails(item);
+    });
+    container.appendChild(img);
+  });
+}
+
+async function init() {
+  const movies = await fetchTren
