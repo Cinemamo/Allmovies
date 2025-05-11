@@ -91,12 +91,15 @@ function changeServer() {
     embedURL = `https://player.videasy.net/${type}/${currentItem.id}`;
   }
 
-  document.getElementById('modal-video').src = embedURL;
+  const iframe = document.getElementById('modal-video');
+  iframe.src = embedURL;
+  iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
 }
 
 function closeModal() {
   document.getElementById('modal').style.display = 'none';
-  document.getElementById('modal-video').src = '';
+  const iframe = document.getElementById('modal-video');
+  iframe.src = '';
 }
 
 function openSearchModal() {
