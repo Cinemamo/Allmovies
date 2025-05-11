@@ -1,356 +1,369 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Website</title>
+    <link rel="stylesheet" href="/home.css" />
+    <link rel="manifest" href="manifest.json" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <script defer src="/home.js"></script>
+    <style>
+      /* Global Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Website</title>
-  <link rel="stylesheet" href="/home.css">
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <script defer src="/home.js"></script>
-  <style>
-    /* Global Styles */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+      body {
+        background-color: #141414;
+        color: white;
+        font-family: Arial, sans-serif;
+      }
 
-    body {
-      background-color: #141414;
-      color: white;
-      font-family: Arial, sans-serif;
-    }
+      /* Navbar */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 1000;
+      }
 
-    /* Navbar */
-    .navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      padding: 15px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      z-index: 1000;
-    }
+      .navbar img {
+        height: 50px;
+      }
 
-    .navbar img {
-      height: 50px;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 20px;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: white;
-      font-size: 16px;
-      text-transform: uppercase;
-    }
-
-    .nav-links a:hover {
-      border-bottom: 2px solid red;
-    }
-
-    .hamburger-container {
-      display: none;
-      flex-direction: column;
-      align-items: flex-end;
-    }
-
-    .hamburger {
-      font-size: 30px;
-      cursor: pointer;
-      color: white;
-    }
-
-    @media (max-width: 768px) {
       .nav-links {
-        display: none;
+        display: flex;
+        gap: 20px;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: white;
+        font-size: 16px;
+        text-transform: uppercase;
+      }
+
+      .nav-links a:hover {
+        border-bottom: 2px solid red;
       }
 
       .hamburger-container {
-        display: flex;
+        display: none;
+        flex-direction: column;
+        align-items: flex-end;
       }
-    }
 
-    .genre-menu {
-      display: none;
-      flex-direction: column;
-      background: #222;
-      position: absolute;
-      top: 60px;
-      left: 0;
-      width: 100%;
-      z-index: 999;
-    }
+      .hamburger {
+        font-size: 30px;
+        cursor: pointer;
+        color: white;
+      }
 
-    .genre-menu a {
-      color: white;
-      padding: 12px;
-      text-decoration: none;
-      border-bottom: 1px solid #333;
-    }
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
 
-    /* Banner */
-    .banner {
-      background-size: cover;
-      background-position: center;
-      height: 60vh;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      padding: 20px;
-      position: relative;
-    }
+        .hamburger-container {
+          display: flex;
+        }
+      }
 
-    .banner h1 {
-      font-size: 50px;
-      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
-    }
+      .genre-menu {
+        display: none;
+        flex-direction: column;
+        background: #222;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        z-index: 999;
+      }
 
-    .banner button {
-      padding: 10px 20px;
-      font-size: 18px;
-      background-color: red;
-      color: white;
-      border: none;
-      cursor: pointer;
-      margin-top: 15px;
-    }
+      .genre-menu a {
+        color: white;
+        padding: 12px;
+        text-decoration: none;
+        border-bottom: 1px solid #333;
+      }
 
-    .banner button:hover {
-      background-color: #e50914;
-    }
+      /* Banner */
+      .banner {
+        background-size: cover;
+        background-position: center;
+        height: 60vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        padding: 20px;
+        position: relative;
+      }
 
-    /* Row and Carousel */
-    .row {
-      margin: 30px 0;
-    }
+      .banner h1 {
+        font-size: 50px;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+      }
 
-    .row h2 {
-      margin-bottom: 15px;
-    }
+      .banner button {
+        padding: 10px 20px;
+        font-size: 18px;
+        background-color: red;
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin-top: 15px;
+      }
 
-    .list {
-      display: flex;
-      gap: 15px;
-      overflow-x: scroll;
-      padding: 15px;
-    }
+      .banner button:hover {
+        background-color: #e50914;
+      }
 
-    .list img {
-      width: 200px;
-      border-radius: 10px;
-      transition: transform 0.3s;
-      cursor: pointer;
-    }
+      /* Row and Carousel */
+      .row {
+        margin: 30px 0;
+      }
 
-    .list img:hover {
-      transform: scale(1.1);
-    }
+      .row h2 {
+        margin-bottom: 15px;
+      }
 
-    /* Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      justify-content: center;
-      align-items: center;
-    }
+      .list {
+        display: flex;
+        gap: 15px;
+        overflow-x: scroll;
+        padding: 15px;
+      }
 
-    .modal-content {
-      background: #222;
-      padding: 20px;
-      max-width: 600px;
-      width: 80%;
-      border-radius: 10px;
-    }
+      .list img {
+        width: 200px;
+        border-radius: 10px;
+        transition: transform 0.3s;
+        cursor: pointer;
+      }
 
-    .modal-content img {
-      width: 100%;
-      border-radius: 10px;
-    }
+      .list img:hover {
+        transform: scale(1.1);
+      }
 
-    .modal-content h2 {
-      margin: 15px 0;
-      font-size: 22px;
-    }
+      /* Modal */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        justify-content: center;
+        align-items: center;
+      }
 
-    .close {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 30px;
-      color: red;
-      cursor: pointer;
-    }
+      .modal-content {
+        background: #222;
+        padding: 20px;
+        max-width: 600px;
+        width: 80%;
+        border-radius: 10px;
+      }
 
-    .server-selector {
-      margin-top: 15px;
-    }
+      .modal-content img {
+        width: 100%;
+        border-radius: 10px;
+      }
 
-    .server-selector select {
-      width: 100%;
-      padding: 10px;
-      background-color: #333;
-      color: white;
-      border: none;
-      border-radius: 5px;
-    }
+      .modal-content h2 {
+        margin: 15px 0;
+        font-size: 22px;
+      }
 
-    .footer {
-      background-color: #111;
-      color: white;
-      text-align: center;
-      padding: 20px;
-    }
+      .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 30px;
+        color: red;
+        cursor: pointer;
+      }
 
-    .footer-links a {
-      color: white;
-      text-decoration: none;
-      margin: 0 10px;
-    }
+      .server-selector {
+        margin-top: 15px;
+      }
 
-    .footer-links a:hover {
-      text-decoration: underline;
-    }
-  </style>
-</head>
+      .server-selector select {
+        width: 100%;
+        padding: 10px;
+        background-color: #333;
+        color: white;
+        border: none;
+        border-radius: 5px;
+      }
 
-<body>
-  <div class="navbar">
-    <img src="logo.png" alt="LOGO HERE" />
-    <div class="hamburger-container">
-      <div class="hamburger" onclick="toggleGenreMenu()">
-        <i class="fas fa-bars"></i>
-      </div>
-      <div class="search-bar-btn" onclick="openSearchModal()">
-        <i class="fas fa-search"></i>
-      </div>
-    </div>
-  </div>
+      .footer {
+        background-color: #111;
+        color: white;
+        text-align: center;
+        padding: 20px;
+      }
 
-  <div class="genre-menu" id="genreMenu">
-    <a href="#">Action</a>
-    <a href="#">Comedy</a>
-    <a href="#">Drama</a>
-    <a href="#">Horror</a>
-    <a href="#">Romance</a>
-    <a href="#">Sci-Fi</a>
-    <a href="#">Thriller</a>
-  </div>
+      .footer-links a {
+        color: white;
+        text-decoration: none;
+        margin: 0 10px;
+      }
 
-  <div class="banner" id="banner">
-    <h1 id="banner-title">Featured Movie</h1>
-    <button id="banner-play" onclick="playMovie()">Play</button>
-  </div>
+      .footer-links a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
 
-  <div class="row">
-    <h2>Trending Movies</h2>
-    <div class="list" id="movies-list">
-      <!-- Movie thumbnails will be dynamically loaded here -->
-    </div>
-  </div>
-
-  <div class="row">
-    <h2>Trending TV Shows</h2>
-    <div class="list" id="tvshows-list">
-      <!-- TV show thumbnails will be dynamically loaded here -->
-    </div>
-  </div>
-
-  <div class="row">
-    <h2>Trending Anime</h2>
-    <div class="list" id="anime-list">
-      <!-- Anime thumbnails will be dynamically loaded here -->
-    </div>
-  </div>
-
-  <div class="modal" id="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
-      <div class="modal-body">
-        <img id="modal-image" src="" alt="" />
-        <div class="modal-text">
-          <h2 id="modal-title"></h2>
-          <p id="modal-description"></p>
+  <body>
+    <div class="navbar">
+      <img src="logo.png" alt="LOGO HERE" />
+      <div class="hamburger-container">
+        <div class="hamburger" onclick="toggleGenreMenu()">
+          <i class="fas fa-bars"></i>
+        </div>
+        <div class="search-bar-btn" onclick="openSearchModal()">
+          <i class="fas fa-search"></i>
         </div>
       </div>
-      <div class="server-selector">
-        <label for="server">Change Server:</label>
-        <select id="server" onchange="changeServer()">
-          <option value="apimocine">Apimocine</option>
-          <option value="vidsrc.cc">Vidsrc.cc</option>
-          <option value="vidsrc.me">Vidsrc.me</option>
-          <option value="player.videasy.net">Player.Videasy.net</option>
-        </select>
-      </div>
-      <iframe id="modal-video" width="100%" height="315" frameborder="0" allowfullscreen allow="autoplay"></iframe>
     </div>
-  </div>
 
-  <div class="search-modal" id="search-modal">
-    <span class="close" onclick="closeSearchModal()">&times;</span>
-    <input type="text" id="search-input" placeholder="Search for a movie or show..." oninput="searchTMDB()" />
-    <div class="results" id="search-results"></div>
-  </div>
+    <div class="genre-menu" id="genreMenu">
+      <a href="#">Action</a>
+      <a href="#">Comedy</a>
+      <a href="#">Drama</a>
+      <a href="#">Horror</a>
+      <a href="#">Romance</a>
+      <a href="#">Sci-Fi</a>
+      <a href="#">Thriller</a>
+    </div>
 
-  <footer class="footer">
-    <div class="footer-content">
-      <p>&copy; 2025 My Website. All rights reserved.</p>
-      <div class="footer-links">
-        <a href="#">Disclaimer</a>
-        <a href="#">About Us</a>
-        <a href="#">Contact Us</a>
+    <div class="banner" id="banner">
+      <h1 id="banner-title">Featured Movie</h1>
+      <button id="banner-play" onclick="playMovie()">Play</button>
+    </div>
+
+    <div class="row">
+      <h2>Trending Movies</h2>
+      <div class="list" id="movies-list">
+        <!-- Movie thumbnails will be dynamically loaded here -->
       </div>
     </div>
-  </footer>
 
-  <script>
-    function toggleGenreMenu() {
-      const menu = document.getElementById('genreMenu');
-      menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
-    }
+    <div class="row">
+      <h2>Trending TV Shows</h2>
+      <div class="list" id="tvshows-list">
+        <!-- TV show thumbnails will be dynamically loaded here -->
+      </div>
+    </div>
 
-    function openSearchModal() {
-      document.getElementById('search-modal').style.display = 'flex';
-    }
+    <div class="row">
+      <h2>Trending Anime</h2>
+      <div class="list" id="anime-list">
+        <!-- Anime thumbnails will be dynamically loaded here -->
+      </div>
+    </div>
 
-    function closeSearchModal() {
-      document.getElementById('search-modal').style.display = 'none';
-    }
+    <div class="modal" id="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div class="modal-body">
+          <img id="modal-image" src="" alt="" />
+          <div class="modal-text">
+            <h2 id="modal-title"></h2>
+            <p id="modal-description"></p>
+          </div>
+        </div>
+        <div class="server-selector">
+          <label for="server">Change Server:</label>
+          <select id="server" onchange="changeServer()">
+            <option value="apimocine">Apimocine</option>
+            <option value="vidsrc.cc">Vidsrc.cc</option>
+            <option value="vidsrc.me">Vidsrc.me</option>
+            <option value="player.videasy.net">Player.Videasy.net</option>
+          </select>
+        </div>
+        <iframe
+          id="modal-video"
+          width="100%"
+          height="315"
+          frameborder="0"
+          allowfullscreen
+          allow="autoplay"
+        ></iframe>
+      </div>
+    </div>
 
-    function closeModal() {
-      document.getElementById('modal').style.display = 'none';
-    }
+    <div class="search-modal" id="search-modal">
+      <span class="close" onclick="closeSearchModal()">&times;</span>
+      <input
+        type="text"
+        id="search-input"
+        placeholder="Search for a movie or show..."
+        oninput="searchTMDB()"
+      />
+      <div class="results" id="search-results"></div>
+    </div>
 
-    function playMovie() {
-      // Open the modal and load a default video
-      const videoId = "video-url-here"; // Replace this with a dynamic video URL
-      const server = document.getElementById('server').value;
-      const iframe = document.getElementById('modal-video');
-      iframe.src = `https://www.${server}.com/video/${videoId}`; // Example URL format
+    <footer class="footer">
+      <div class="footer-content">
+        <p>&copy; 2025 My Website. All rights reserved.</p>
+        <div class="footer-links">
+          <a href="#">Disclaimer</a>
+          <a href="#">About Us</a>
+          <a href="#">Contact Us</a>
+        </div>
+      </div>
+    </footer>
 
-      document.getElementById('modal').style.display = 'flex';
-    }
+    <script>
+      function toggleGenreMenu() {
+        const menu = document.getElementById("genreMenu");
+        menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+      }
 
-    function changeServer() {
-      const iframe = document.getElementById('modal-video');
-      const server = document.getElementById('server').value;
-      const videoId = "video-url-here"; // Replace with dynamic video ID
-      iframe.src = `https://www.${server}.com/video/${videoId}`; // Example URL format
-    }
-  </script>
-</body>
+      function openSearchModal() {
+        document.getElementById("search-modal").style.display = "flex";
+      }
 
+      function closeSearchModal() {
+        document.getElementById("search-modal").style.display = "none";
+      }
+
+      function closeModal() {
+        document.getElementById("modal").style.display = "none";
+      }
+
+      function playMovie() {
+        // Replace this with a valid movie ID or video URL
+        const videoId = "sample-video-id"; // Example placeholder
+        const server = document.getElementById("server").value;
+        const iframe = document.getElementById("modal-video");
+        iframe.src = `https://www.${server}.com/video/${videoId}`;
+
+        document.getElementById("modal").style.display = "flex";
+      }
+
+      function changeServer() {
+        const iframe = document.getElementById("modal-video");
+        const server = document.getElementById("server").value;
+        const videoId = "sample-video-id"; // Example placeholder
+        iframe.src = `https://www.${server}.com/video/${videoId}`;
+      }
+    </script>
+  </body>
 </html>
