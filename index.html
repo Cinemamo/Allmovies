@@ -31,6 +31,31 @@
 
     .search-bar {
       padding: 5px;
+      border-radius: 50%;
+      background-color: #222;
+      color: white;
+      border: none;
+      display: inline-block;
+      width: 35px;
+      height: 35px;
+      outline: none;
+    }
+
+    .search-bar:focus {
+      width: 200px;
+    }
+
+    .search-bar-btn {
+      font-size: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      padding: 10px;
+      background: transparent;
+      color: white;
+      border-radius: 50%;
+      border: 2px solid white;
     }
 
     .hamburger {
@@ -74,9 +99,15 @@
 <body>
   <div class="navbar">
     <img src="logo.png" alt="LOGO HERE" />
+    
+    <div class="search-bar-btn" onclick="openSearchModal()">
+      <i class="fas fa-search"></i>
+    </div>
+
     <div class="hamburger" onclick="toggleGenreMenu()">
       <i class="fas fa-bars"></i>
     </div>
+
     <div class="nav-links">
       <a href="index.html">Home</a>
       <input type="text" class="search-bar" placeholder="Search..." onfocus="openSearchModal()" />
