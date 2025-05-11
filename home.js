@@ -18,7 +18,7 @@ function fetchMovies(url, container) {
         div.innerHTML = `
           <img src="${posterPath}" alt="${movie.title}" />
         `;
-        div.addEventListener("click", () => openModal(movie));
+        div.addEventListener("click", () => openModal(movie.id));
         container.appendChild(div);
       });
     })
@@ -28,11 +28,24 @@ function fetchMovies(url, container) {
     });
 }
 
-function openModal(movie) {
+function openModal(tmdbId) {
   const modal = document.getElementById("modalPlayer");
   const iframe = document.getElementById("videoFrame");
-  iframe.src = `https://vidsrc.to/embed/movie/${movie.id}`;
-  modal.style.display = "flex";
+
+  fetch(`https://api.themoviedb.org/3/movie/${tmdbId}/external_ids?api_key=${apiKey}`)
+    .then((res) => res.json())
+    .then((data) => {
+      const imdbId = data.imdb_id;
+      if (imdbId) {
+        iframe.src = `https://vidsrc.to/embed/movie/${imdbId}`;
+        modal.style.display = "flex";
+      } else {
+        alert("Walang IMDb ID para sa movie na ito.");
+      }
+    })
+    .catch((error) => {
+      console.error("Error getting IMDb ID:", error);
+    });
 }
 
 document.getElementById("closeModal").onclick = () => {
@@ -42,7 +55,4 @@ document.getElementById("closeModal").onclick = () => {
   iframe.src = "";
 };
 
-// Load sections
-fetchMovies(`https://api.themoviedb.org/3/trending/movie/day?api_key=${apiKey}`, trendingContainer);
-fetchMovies(`https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}`, topImdbContainer);
-fetchMovies(`https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}`, newReleaseContainer);
+fetchMovies(`https://
