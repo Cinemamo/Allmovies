@@ -16,10 +16,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   document.querySelectorAll('.genre-item').forEach(item => {
     item.addEventListener('click', async () => {
-      const genreId = item.getAttribute('data-genre-id');
-      const movies = await fetchMoviesByGenre(genreId);
-      displayList(movies, 'movies-list');
+        const genreId = item.getAttribute('data-genre-id');
+        const movies = await fetchMoviesByGenre(genreId);
+        displayList(movies, 'movies-list');
     });
+});
+
+async function fetchMoviesByGenre(genreId) {
+    const res = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}`);
+    const data = await res.json();
+    return data.results;
+}
+
   });
 
   const trendingMovies = await fetchTrending('movie');
