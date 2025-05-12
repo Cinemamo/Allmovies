@@ -317,3 +317,38 @@ body { font-family: Arial, sans-serif; background: #111; color: #fff; }
     gap: 8px;
   }
 }
+/* Section row wrapper */
+.row {
+  margin: 20px 0;
+}
+
+.row h2 {
+  color: #fff;
+  margin-left: 10px;
+  font-size: 1.5rem;
+}
+
+/* Horizontal movie list styling */
+.list {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px;
+  gap: 10px;
+  scroll-behavior: smooth;
+}
+
+.list img {
+  max-height: 220px;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.list img:hover {
+  transform: scale(1.08);
+}
+
+/* Optional: scrollbar hide for cleaner look */
+.list::-webkit-scrollbar {
+  display: none;
+}
