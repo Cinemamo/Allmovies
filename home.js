@@ -175,3 +175,8 @@ async function init() {
 }
 
 init();
+function scrollList(id, direction) {
+  const container = document.getElementById(id);
+  const scrollAmount = 300 * direction;
+  container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+}
