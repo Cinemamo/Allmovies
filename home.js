@@ -15,25 +15,23 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.querySelector(".close")?.addEventListener("click", closeModal);
 
   document.querySelectorAll('.genre-menu a').forEach(item => {
-  item.addEventListener('click', async () => {
-    const genreId = item.getAttribute('data-genre-id'); // Kukunin ang genre ID mula sa link
-    const movies = await fetchMoviesByGenre(genreId);  // Kukunin ang movies based sa genre ID
-    displayList(movies, 'movies-list');  // I-display ang mga movie sa container
+    item.addEventListener('click', async () => {
+      const genreId = item.getAttribute('data-genre-id');
+      const movies = await fetchMoviesByGenre(genreId);
+      displayList(movies, 'movies-list');
+    });
   });
 });
 
 async function fetchMoviesByGenre(genreId) {
   const res = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}`);
   const data = await res.json();
-  return data.results;  // Return the list of movies for that genre
+  return data.results;
 }
 
-}
-
-function displayList(items, containerId) {
 function displayList(items, containerId) {
   const container = document.getElementById(containerId);
-  container.innerHTML = ''; // Clear previous movies if any
+  container.innerHTML = '';
 
   items.forEach(item => {
     const movieItem = document.createElement('div');
@@ -48,13 +46,11 @@ function displayList(items, containerId) {
     movieTitle.textContent = item.title || item.name;
     movieItem.appendChild(movieTitle);
 
-    // Add click listener to show details on modal
     movieItem.addEventListener('click', () => showDetails(item));
 
     container.appendChild(movieItem);
   });
 }
-
 
 function displayBanner(item) {
   document.getElementById('banner').style.backgroundImage = `url(${IMG_URL}${item.backdrop_path})`;
@@ -67,10 +63,9 @@ function showDetails(item) {
   document.getElementById('modal-description').textContent = item.overview;
   document.getElementById('modal-image').src = `${IMG_URL}${item.poster_path}`;
   document.getElementById('modal-rating').innerHTML = '★'.repeat(Math.round(item.vote_average / 2));
-  changeServer(); // Change server for video
-  document.getElementById('modal').style.display = 'flex'; // Show the modal
+  changeServer();
+  document.getElementById('modal').style.display = 'flex';
 }
-
 
 function changeServer() {
   if (!currentItem) return;
