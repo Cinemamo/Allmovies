@@ -38,15 +38,16 @@
         // Function to display movies
         function displayMovies(movies) {
             const movieContainer = document.getElementById('movies-list');
-            movieContainer.innerHTML = '';
+            movieContainer.innerHTML = ''; // Clear previous content
 
+            // Loop through the movies and add them to the container
             movies.forEach(movie => {
                 const movieItem = document.createElement('div');
                 movieItem.classList.add('movie-item');
                 movieItem.classList.add('genre-item');
 
                 const movieImage = document.createElement('img');
-                movieImage.src = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+                movieImage.src = movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'default-image.jpg'; // Handle missing image
                 movieImage.alt = movie.title;
                 movieItem.appendChild(movieImage);
 
@@ -68,6 +69,7 @@
 
         // Show movie details in a modal (for now showing with alert)
         function showDetails(movie) {
+            // Replace alert with modal if needed
             alert(`Showing details for ${movie.title}`);
             // You can replace this with your modal implementation
         }
