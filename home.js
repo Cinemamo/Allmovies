@@ -22,8 +22,43 @@ document.addEventListener("DOMContentLoaded", () => {
       displayList(movies, 'movies-list');
     });
   });
+
+  // Fetch popular movies
+  fetchPopularMovies();
 });
 
+// Fetch popular movies
+async function fetchPopularMovies() {
+  const res = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}`);
+  const data = await res.json();
+  displayMovies(data.results); // Display fetched movies
+}
+
+// Display movies on the page
+function displayMovies(movies) {
+  const movieContainer = document.getElementById('movies-list'); // Assuming you have a div with id 'movies-list'
+  movieContainer.innerHTML = ''; // Clear previous content
+
+  // Loop through the movies and create image elements for each
+  movies.forEach(movie => {
+    const movieItem = document.createElement('div');
+    movieItem.classList.add('movie-item');
+
+    const movieImage = document.createElement('img');
+    movieImage.src = `${IMG_URL}${movie.poster_path}`;
+    movieImage.alt = movie.title;
+    movieItem.appendChild(movieImage);
+
+    const movieTitle = document.createElement('p');
+    movieTitle.textContent = movie.title;
+    movieItem.appendChild(movieTitle);
+
+    // Add movie item to the container
+    movieContainer.appendChild(movieItem);
+  });
+}
+
+// Fetch trending items
 async function fetchTrending(type) {
   const res = await fetch(`${BASE_URL}/trending/${type}/week?api_key=${API_KEY}`);
   const data = await res.json();
