@@ -31,22 +31,30 @@ async function fetchMoviesByGenre(genreId) {
 }
 
 function displayList(items, containerId) {
+function displayList(items, containerId) {
   const container = document.getElementById(containerId);
-  container.innerHTML = '';
+  container.innerHTML = ''; // Clear previous movies if any
 
   items.forEach(item => {
-    if (!item.poster_path) return;
+    const movieItem = document.createElement('div');
+    movieItem.classList.add('movie-item');
 
-    const div = document.createElement('div');
-    div.classList.add('movie');
-    const img = document.createElement('img');
-    img.src = `${IMG_URL}${item.poster_path}`;
-    img.alt = item.title || item.name;
-    img.addEventListener('click', () => showDetails(item));
-    div.appendChild(img);
-    container.appendChild(div);
+    const movieImage = document.createElement('img');
+    movieImage.src = `${IMG_URL}${item.poster_path}`;
+    movieImage.alt = item.title || item.name;
+    movieItem.appendChild(movieImage);
+
+    const movieTitle = document.createElement('p');
+    movieTitle.textContent = item.title || item.name;
+    movieItem.appendChild(movieTitle);
+
+    // Add click listener to show details on modal
+    movieItem.addEventListener('click', () => showDetails(item));
+
+    container.appendChild(movieItem);
   });
 }
+
 
 function displayBanner(item) {
   document.getElementById('banner').style.backgroundImage = `url(${IMG_URL}${item.backdrop_path})`;
