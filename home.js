@@ -4,17 +4,16 @@ const IMG_URL = 'https://image.tmdb.org/t/p/original';
 let currentItem;
 
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("menu-toggle").addEventListener("click", () => {
-    document.querySelector(".nav-links").classList.toggle("show");
+  document.getElementById("menu-toggle")?.addEventListener("click", () => {
+    document.querySelector(".nav-links")?.classList.toggle("show");
   });
 
-  document.getElementById("search-icon").addEventListener("click", openSearchModal);
-  document.getElementById("search-close").addEventListener("click", closeSearchModal);
-  document.getElementById("search-input").addEventListener("input", searchTMDB);
-  document.getElementById("server").addEventListener("change", changeServer);
-  document.querySelector(".close").addEventListener("click", closeModal);
+  document.getElementById("search-icon")?.addEventListener("click", openSearchModal);
+  document.getElementById("search-close")?.addEventListener("click", closeSearchModal);
+  document.getElementById("search-input")?.addEventListener("input", searchTMDB);
+  document.getElementById("server")?.addEventListener("change", changeServer);
+  document.querySelector(".close")?.addEventListener("click", closeModal);
 
-  // Magdagdag ng event listeners para sa bawat genre item
   document.querySelectorAll('.genre-item').forEach(item => {
     item.addEventListener('click', async () => {
       const genreId = item.getAttribute('data-genre-id');
@@ -23,23 +22,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Fetch popular movies
   fetchPopularMovies();
 });
 
-// Fetch popular movies
 async function fetchPopularMovies() {
   const res = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}`);
   const data = await res.json();
-  displayMovies(data.results); // Display fetched movies
+  displayList(data.results, 'popular-movies-list'); // DISPLAY TO DEDICATED SECTION
 }
 
-// Display movies on the page
 function displayMovies(movies) {
-  const movieContainer = document.getElementById('movies-list'); // Assuming you have a div with id 'movies-list'
-  movieContainer.innerHTML = ''; // Clear previous content
+  const movieContainer = document.getElementById('movies-list');
+  movieContainer.innerHTML = '';
 
-  // Loop through the movies and create image elements for each
   movies.forEach(movie => {
     const movieItem = document.createElement('div');
     movieItem.classList.add('movie-item');
@@ -53,12 +48,11 @@ function displayMovies(movies) {
     movieTitle.textContent = movie.title;
     movieItem.appendChild(movieTitle);
 
-    // Add movie item to the container
+    movieItem.addEventListener('click', () => showDetails(movie));
     movieContainer.appendChild(movieItem);
   });
 }
 
-// Fetch trending items
 async function fetchTrending(type) {
   const res = await fetch(`${BASE_URL}/trending/${type}/week?api_key=${API_KEY}`);
   const data = await res.json();
