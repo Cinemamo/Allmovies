@@ -165,3 +165,7 @@ function scrollList(id, direction) {
   const scrollAmount = 300 * direction;
   container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
 }
+function hideIntro() {
+  const intro = document.getElementById('intro-disclaimer');
+  if (intro) intro.style.display = 'none';
+}
