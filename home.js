@@ -64,12 +64,13 @@ function displayBanner(item) {
 function showDetails(item) {
   currentItem = item;
   document.getElementById('modal-title').textContent = item.title || item.name;
-  document.getElementById('modal-description').textContent = item.overview || 'No description available.';
+  document.getElementById('modal-description').textContent = item.overview;
   document.getElementById('modal-image').src = `${IMG_URL}${item.poster_path}`;
   document.getElementById('modal-rating').innerHTML = '★'.repeat(Math.round(item.vote_average / 2));
-  document.getElementById('modal').style.display = 'flex';
-  changeServer();
+  changeServer(); // Change server for video
+  document.getElementById('modal').style.display = 'flex'; // Show the modal
 }
+
 
 function changeServer() {
   if (!currentItem) return;
