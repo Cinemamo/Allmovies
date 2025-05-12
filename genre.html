@@ -1,78 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="genre-title"></title>
-    <link rel="stylesheet" href="home.css">
-    <script src="home.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title id="genre-title"></title>
+  <link rel="stylesheet" href="home.css" />
 </head>
 <body>
-    <div class="navbar">
-        <!-- Add your navbar here if needed -->
-    </div>
+  <div class="navbar">
+    <!-- Optional navbar -->
+  </div>
 
-    <h1 id="genre-heading"></h1>
+  <h1 id="genre-heading"></h1>
 
-    <div id="movies-list" class="movie-list">
-        <!-- Movies will be displayed here -->
-    </div>
+  <div id="movies-list" class="movie-list">
+    <!-- Movies will be displayed here -->
+  </div>
 
-    <script>
-        // Retrieve genre ID and name from URL query parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        const genreId = urlParams.get('genre');
-        const genreName = urlParams.get('name');
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const genreId = urlParams.get('genre');
+    const genreName = urlParams.get('name');
 
-        // Set the page title and heading dynamically
-        document.getElementById('genre-title').textContent = `${genreName} Movies`;
-        document.getElementById('genre-heading').textContent = `${genreName} Movies`;
+    document.getElementById('genre-title').textContent = `${genreName} Movies`;
+    document.getElementById('genre-heading').textContent = `${genreName} Movies`;
 
-        // Function to fetch movies by genre
-        async function fetchMoviesByGenre(genreId) {
-            const res = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=27077b0de31705d036e5367a680c8d5f&with_genres=${genreId}`);
-            const data = await res.json();
-            return data.results;
-        }
+    async function fetchMoviesByGenre(genreId) {
+      const res = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=27077b0de31705d036e5367a680c8d5f&with_genres=${genreId}`);
+      const data = await res.json();
+      return data.results;
+    }
 
-        // Function to display movies
-        function displayMovies(movies) {
-            const movieContainer = document.getElementById('movies-list');
-            movieContainer.innerHTML = ''; // Clear previous content
+    function displayMovies(movies) {
+      const movieContainer = document.getElementById('movies-list');
+      movieContainer.innerHTML = '';
 
-            // Loop through the movies and add them to the container
-            movies.forEach(movie => {
-                const movieItem = document.createElement('div');
-                movieItem.classList.add('movie-item');
-                movieItem.classList.add('genre-item');
+      movies.forEach(movie => {
+        const movieItem = document.createElement('div');
+        movieItem.classList.add('movie-item');
 
-                const movieImage = document.createElement('img');
-                movieImage.src = movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'default-image.jpg'; // Handle missing image
-                movieImage.alt = movie.title;
-                movieItem.appendChild(movieImage);
+        const movieImage = document.createElement('img');
+        movieImage.src = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+        movieImage.alt = movie.title;
+        movieItem.appendChild(movieImage);
 
-                const movieTitle = document.createElement('p');
-                movieTitle.textContent = movie.title;
-                movieItem.appendChild(movieTitle);
+        const movieTitle = document.createElement('p');
+        movieTitle.textContent = movie.title;
+        movieItem.appendChild(movieTitle);
 
-                // Adding the event listener to show movie details on click
-                movieItem.addEventListener('click', () => showDetails(movie));
-                movieContainer.appendChild(movieItem);
-            });
-        }
+        // Redirect to watch.html with movie ID
+        movieItem.addEventListener('click', () => {
+          window.location.href = `watch.html?id=${movie.id}`;
+        });
 
-        // Fetch and display movies when the page loads
-        window.onload = async () => {
-            const movies = await fetchMoviesByGenre(genreId);
-            displayMovies(movies);
-        };
+        movieContainer.appendChild(movieItem);
+      });
+    }
 
-        // Show movie details in a modal (for now showing with alert)
-        function showDetails(movie) {
-            // Replace alert with modal if needed
-            alert(`Showing details for ${movie.title}`);
-            // You can replace this with your modal implementation
-        }
-    </script>
+    window.onload = async () => {
+      const movies = await fetchMoviesByGenre(genreId);
+      displayMovies(movies);
+    };
+  </script>
 </body>
 </html>
