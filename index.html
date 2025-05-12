@@ -150,6 +150,11 @@
           <p id="modal-description"></p>
         </div>
       </div>
+      function changeServer() {
+  if (!currentItem) return;
+  const server = document.getElementById('server').value;
+  const type = currentItem.media_type === "tv" ? "tv" : "movie";
+  let embedURL = "";
 
       if (server === "apimocine") {
     embedURL = `https://apimocine.vercel.app/${type}/${currentItem.id}?autoplay=true`;
