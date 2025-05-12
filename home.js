@@ -14,12 +14,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("server")?.addEventListener("change", changeServer);
   document.querySelector(".close")?.addEventListener("click", closeModal);
 
-  document.querySelectorAll('.genre-item').forEach(item => {
-    item.addEventListener('click', async () => {
-        const genreId = item.getAttribute('data-genre-id');
-        const movies = await fetchMoviesByGenre(genreId);
-        displayList(movies, 'movies-list');
-    });
+  document.querySelectorAll('.genre-menu a').forEach(item => {
+  item.addEventListener('click', async () => {
+    const genreId = item.getAttribute('data-genre-id'); // Kukunin ang genre ID mula sa link
+    const movies = await fetchMoviesByGenre(genreId);  // Kukunin ang movies based sa genre ID
+    displayList(movies, 'movies-list');  // I-display ang mga movie sa container
+  });
 });
 
 async function fetchMoviesByGenre(genreId) {
@@ -42,17 +42,6 @@ async function fetchMoviesByGenre(genreId) {
   displayList(popularMovies, 'popular-movies-list');
 });
 
-async function fetchPopularMovies() {
-  const res = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}`);
-  const data = await res.json();
-  return data.results;
-}
-
-async function fetchTrending(type) {
-  const res = await fetch(`${BASE_URL}/trending/${type}/week?api_key=${API_KEY}`);
-  const data = await res.json();
-  return data.results;
-}
 
 async function fetchTrendingAnime() {
   let results = [];
