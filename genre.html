@@ -23,7 +23,8 @@
         const urlParams = new URLSearchParams(window.location.search);
         const genreId = urlParams.get('genre');
         const genreName = urlParams.get('name');
-        
+
+        // Set the page title and heading dynamically
         document.getElementById('genre-title').textContent = `${genreName} Movies`;
         document.getElementById('genre-heading').textContent = `${genreName} Movies`;
 
@@ -53,6 +54,7 @@
                 movieTitle.textContent = movie.title;
                 movieItem.appendChild(movieTitle);
 
+                // Adding the event listener to show movie details on click
                 movieItem.addEventListener('click', () => showDetails(movie));
                 movieContainer.appendChild(movieItem);
             });
@@ -64,7 +66,7 @@
             displayMovies(movies);
         };
 
-        // Show movie details in a modal
+        // Show movie details in a modal (for now showing with alert)
         function showDetails(movie) {
             alert(`Showing details for ${movie.title}`);
             // You can replace this with your modal implementation
