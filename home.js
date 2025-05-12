@@ -97,6 +97,12 @@ function displayList(items, containerId) {
 
 function showDetails(item) {
   currentItem = item;
+
+  // FIX: Ensure media_type exists
+  if (!item.media_type) {
+    item.media_type = 'movie'; // Assume movie if missing
+  }
+
   document.getElementById('modal-title').textContent = item.title || item.name;
   document.getElementById('modal-description').textContent = item.overview;
   document.getElementById('modal-image').src = `${IMG_URL}${item.poster_path}`;
@@ -104,6 +110,7 @@ function showDetails(item) {
   changeServer();
   document.getElementById('modal').style.display = 'flex';
 }
+
 
 function changeServer() {
   const server = document.getElementById('server').value;
