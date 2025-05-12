@@ -14,14 +14,50 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("server")?.addEventListener("change", changeServer);
   document.querySelector(".close")?.addEventListener("click", closeModal);
 
-  document.querySelectorAll('.genre-menu a').forEach(item => {
+  document.querySelectorAll('.genre-item').forEach(item => {
     item.addEventListener('click', async () => {
       const genreId = item.getAttribute('data-genre-id');
       const movies = await fetchMoviesByGenre(genreId);
       displayList(movies, 'movies-list');
     });
   });
+
+  const trendingMovies = await fetchTrending('movie');
+  const trendingTV = await fetchTrending('tv');
+  const trendingAnime = await fetchTrendingAnime();
+  const popularMovies = await fetchPopularMovies();
+
+  displayBanner(trendingMovies[Math.floor(Math.random() * trendingMovies.length)]);
+  displayList(trendingMovies, 'movies-list');
+  displayList(trendingTV, 'tvshows-list');
+  displayList(trendingAnime, 'anime-list');
+  displayList(popularMovies, 'popular-movies-list');
 });
+
+async function fetchPopularMovies() {
+  const res = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}`);
+  const data = await res.json();
+  return data.results;
+}
+
+async function fetchTrending(type) {
+  const res = await fetch(`${BASE_URL}/trending/${type}/week?api_key=${API_KEY}`);
+  const data = await res.json();
+  return data.results;
+}
+
+async function fetchTrendingAnime() {
+  let results = [];
+  for (let page = 1; page <= 2; page++) {
+    const res = await fetch(`${BASE_URL}/trending/tv/week?api_key=${API_KEY}&page=${page}`);
+    const data = await res.json();
+    const filtered = data.results.filter(item =>
+      item.original_language === 'ja' && item.genre_ids.includes(16)
+    );
+    results = results.concat(filtered);
+  }
+  return results;
+}
 
 async function fetchMoviesByGenre(genreId) {
   const res = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}`);
@@ -34,21 +70,16 @@ function displayList(items, containerId) {
   container.innerHTML = '';
 
   items.forEach(item => {
-    const movieItem = document.createElement('div');
-    movieItem.classList.add('movie-item');
+    if (!item.poster_path) return;
 
-    const movieImage = document.createElement('img');
-    movieImage.src = `${IMG_URL}${item.poster_path}`;
-    movieImage.alt = item.title || item.name;
-    movieItem.appendChild(movieImage);
-
-    const movieTitle = document.createElement('p');
-    movieTitle.textContent = item.title || item.name;
-    movieItem.appendChild(movieTitle);
-
-    movieItem.addEventListener('click', () => showDetails(item));
-
-    container.appendChild(movieItem);
+    const div = document.createElement('div');
+    div.classList.add('movie');
+    const img = document.createElement('img');
+    img.src = `${IMG_URL}${item.poster_path}`;
+    img.alt = item.title || item.name;
+    img.addEventListener('click', () => showDetails(item));
+    div.appendChild(img);
+    container.appendChild(div);
   });
 }
 
@@ -60,11 +91,11 @@ function displayBanner(item) {
 function showDetails(item) {
   currentItem = item;
   document.getElementById('modal-title').textContent = item.title || item.name;
-  document.getElementById('modal-description').textContent = item.overview;
+  document.getElementById('modal-description').textContent = item.overview || 'No description available.';
   document.getElementById('modal-image').src = `${IMG_URL}${item.poster_path}`;
   document.getElementById('modal-rating').innerHTML = '★'.repeat(Math.round(item.vote_average / 2));
-  changeServer();
   document.getElementById('modal').style.display = 'flex';
+  changeServer();
 }
 
 function changeServer() {
