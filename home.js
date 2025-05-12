@@ -164,6 +164,114 @@ async function searchTMDB() {
 }
 
 async function init() {
+const apiKey = '27077b0de31705d036e5367a680c8d5f';
+const imageBaseUrl = 'https://image.tmdb.org/t/p/w500';
+
+async function fetchTrending(type = 'movie') {
+  const res = await fetch(`https://api.themoviedb.org/3/trending/${type}/week?api_key=${apiKey}`);
+  const data = await res.json();
+  return data.results;
+}
+
+async function fetchTrendingAnime() {
+  const res = await fetch(`https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&with_genres=16`);
+  const data = await res.json();
+  return data.results;
+}
+
+async function fetchPopularMovies() {
+  const res = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`);
+  const data = await res.json();
+  return data.results;
+}
+
+function displayBanner(movie) {
+  const banner = document.getElementById('banner');
+  const title = document.getElementById('banner-title');
+  banner.style.backgroundImage = `url(${imageBaseUrl}${movie.backdrop_path})`;
+  banner.style.backgroundSize = 'cover';
+  banner.style.backgroundPosition = 'center';
+  title.textContent = movie.title || movie.name;
+}
+
+function displayList(items, containerId) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+
+  items.forEach(item => {
+    const div = document.createElement('div');
+    div.classList.add('movie');
+    div.innerHTML = `
+      <img src="${imageBaseUrl}${item.poster_path}" alt="${item.title || item.name}" onclick="openModal(${encodeURIComponent(JSON.stringify(item))})" />
+    `;
+    container.appendChild(div);
+  });
+}
+
+function openModal(itemJSON) {
+  const item = JSON.parse(decodeURIComponent(itemJSON));
+  document.getElementById('modal-image').src = `${imageBaseUrl}${item.poster_path}`;
+  document.getElementById('modal-title').textContent = item.title || item.name;
+  document.getElementById('modal-description').textContent = item.overview || 'No description available.';
+  document.getElementById('modal-rating').innerHTML = `Rating: ${item.vote_average}/10`;
+  document.getElementById('modal-video').src = getEmbedUrl(item);
+  document.getElementById('modal').style.display = 'block';
+}
+
+function closeModal() {
+  document.getElementById('modal').style.display = 'none';
+  document.getElementById('modal-video').src = '';
+}
+
+function getEmbedUrl(item) {
+  const id = item.id;
+  const server = document.getElementById('server').value;
+  return `https://${server}/embed/${id}`;
+}
+
+function changeServer() {
+  const video = document.getElementById('modal-video');
+  const itemTitle = document.getElementById('modal-title').textContent;
+  const newServer = document.getElementById('server').value;
+  video.src = `https://${newServer}/embed?title=${encodeURIComponent(itemTitle)}`;
+}
+
+function openSearchModal() {
+  document.getElementById('search-modal').style.display = 'block';
+}
+
+function closeSearchModal() {
+  document.getElementById('search-modal').style.display = 'none';
+  document.getElementById('search-input').value = '';
+  document.getElementById('search-results').innerHTML = '';
+}
+
+async function searchTMDB() {
+  const query = document.getElementById('search-input').value;
+  if (!query) return;
+
+  const res = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&query=${query}`);
+  const data = await res.json();
+  const results = data.results;
+
+  const container = document.getElementById('search-results');
+  container.innerHTML = '';
+
+  results.forEach(item => {
+    if (!item.poster_path) return;
+    const div = document.createElement('div');
+    div.classList.add('search-item');
+    div.innerHTML = `
+      <img src="${imageBaseUrl}${item.poster_path}" alt="${item.title || item.name}" />
+      <p>${item.title || item.name}</p>
+    `;
+    div.onclick = () => openModal(encodeURIComponent(JSON.stringify(item)));
+    container.appendChild(div);
+  });
+}
+
+// Call init on page load
+window.addEventListener('DOMContentLoaded', async () => {
   const movies = await fetchTrending('movie');
   const tvShows = await fetchTrending('tv');
   const anime = await fetchTrendingAnime();
@@ -173,7 +281,8 @@ async function init() {
   displayList(movies, 'movies-list');
   displayList(tvShows, 'tvshows-list');
   displayList(anime, 'anime-list');
-  displayList(popular, 'popular-list');
+  displayList(popular, 'popular-movies-list');
+});
 
 }
 
