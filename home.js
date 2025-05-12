@@ -23,43 +23,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 async function fetchMoviesByGenre(genreId) {
-    const res = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}`);
-    const data = await res.json();
-    return data.results;
-}
-
-  });
-
-  const trendingMovies = await fetchTrending('movie');
-  const trendingTV = await fetchTrending('tv');
-  const trendingAnime = await fetchTrendingAnime();
-  const popularMovies = await fetchPopularMovies();
-
-  displayBanner(trendingMovies[Math.floor(Math.random() * trendingMovies.length)]);
-  displayList(trendingMovies, 'movies-list');
-  displayList(trendingTV, 'tvshows-list');
-  displayList(trendingAnime, 'anime-list');
-  displayList(popularMovies, 'popular-movies-list');
-});
-
-
-async function fetchTrendingAnime() {
-  let results = [];
-  for (let page = 1; page <= 2; page++) {
-    const res = await fetch(`${BASE_URL}/trending/tv/week?api_key=${API_KEY}&page=${page}`);
-    const data = await res.json();
-    const filtered = data.results.filter(item =>
-      item.original_language === 'ja' && item.genre_ids.includes(16)
-    );
-    results = results.concat(filtered);
-  }
-  return results;
-}
-
-async function fetchMoviesByGenre(genreId) {
   const res = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}`);
   const data = await res.json();
-  return data.results;
+  return data.results;  // Return the list of movies for that genre
+}
+
 }
 
 function displayList(items, containerId) {
