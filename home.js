@@ -1,9 +1,9 @@
 const API_KEY = '27077b0de31705d036e5367a680c8d5f';
 const BASE_URL = 'https://api.themoviedb.org/3';
 const IMG_URL = 'https://image.tmdb.org/t/p/original';
-let currentItem;
+let currentItem = null;
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("menu-toggle")?.addEventListener("click", () => {
     document.querySelector(".nav-links")?.classList.toggle("show");
   });
@@ -22,35 +22,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  fetchPopularMovies();
+  const trendingMovies = await fetchTrending('movie');
+  const trendingTV = await fetchTrending('tv');
+  const trendingAnime = await fetchTrendingAnime();
+  const popularMovies = await fetchPopularMovies();
+
+  displayBanner(trendingMovies[Math.floor(Math.random() * trendingMovies.length)]);
+  displayList(trendingMovies, 'movies-list');
+  displayList(trendingTV, 'tvshows-list');
+  displayList(trendingAnime, 'anime-list');
+  displayList(popularMovies, 'popular-movies-list');
 });
 
 async function fetchPopularMovies() {
   const res = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}`);
   const data = await res.json();
-  displayList(data.results, 'popular-movies-list'); // DISPLAY TO DEDICATED SECTION
-}
-
-function displayMovies(movies) {
-  const movieContainer = document.getElementById('movies-list');
-  movieContainer.innerHTML = '';
-
-  movies.forEach(movie => {
-    const movieItem = document.createElement('div');
-    movieItem.classList.add('movie-item');
-
-    const movieImage = document.createElement('img');
-    movieImage.src = `${IMG_URL}${movie.poster_path}`;
-    movieImage.alt = movie.title;
-    movieItem.appendChild(movieImage);
-
-    const movieTitle = document.createElement('p');
-    movieTitle.textContent = movie.title;
-    movieItem.appendChild(movieTitle);
-
-    movieItem.addEventListener('click', () => showDetails(movie));
-    movieContainer.appendChild(movieItem);
-  });
+  return data.results;
 }
 
 async function fetchTrending(type) {
@@ -61,7 +48,7 @@ async function fetchTrending(type) {
 
 async function fetchTrendingAnime() {
   let results = [];
-  for (let page = 1; page <= 3; page++) {
+  for (let page = 1; page <= 2; page++) {
     const res = await fetch(`${BASE_URL}/trending/tv/week?api_key=${API_KEY}&page=${page}`);
     const data = await res.json();
     const filtered = data.results.filter(item =>
@@ -78,43 +65,43 @@ async function fetchMoviesByGenre(genreId) {
   return data.results;
 }
 
+function displayList(items, containerId) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+
+  items.forEach(item => {
+    if (!item.poster_path) return;
+
+    const div = document.createElement('div');
+    div.classList.add('movie');
+    const img = document.createElement('img');
+    img.src = `${IMG_URL}${item.poster_path}`;
+    img.alt = item.title || item.name;
+    img.addEventListener('click', () => showDetails(item));
+    div.appendChild(img);
+    container.appendChild(div);
+  });
+}
+
 function displayBanner(item) {
   document.getElementById('banner').style.backgroundImage = `url(${IMG_URL}${item.backdrop_path})`;
   document.getElementById('banner-title').textContent = item.title || item.name;
 }
 
-function displayList(items, containerId) {
-  const container = document.getElementById(containerId);
-  container.innerHTML = '';
-  items.forEach(item => {
-    const img = document.createElement('img');
-    img.src = `${IMG_URL}${item.poster_path}`;
-    img.alt = item.title || item.name;
-    img.addEventListener('click', () => showDetails(item));
-    container.appendChild(img);
-  });
-}
-
 function showDetails(item) {
   currentItem = item;
-
-  // FIX: Ensure media_type exists
-  if (!item.media_type) {
-    item.media_type = 'movie'; // Assume movie if missing
-  }
-
   document.getElementById('modal-title').textContent = item.title || item.name;
-  document.getElementById('modal-description').textContent = item.overview;
+  document.getElementById('modal-description').textContent = item.overview || 'No description available.';
   document.getElementById('modal-image').src = `${IMG_URL}${item.poster_path}`;
   document.getElementById('modal-rating').innerHTML = '★'.repeat(Math.round(item.vote_average / 2));
-  changeServer();
   document.getElementById('modal').style.display = 'flex';
+  changeServer();
 }
 
-
 function changeServer() {
+  if (!currentItem) return;
   const server = document.getElementById('server').value;
-  const type = currentItem.media_type === "movie" ? "movie" : "tv";
+  const type = currentItem.media_type === "tv" ? "tv" : "movie";
   let embedURL = "";
 
   if (server === "apimocine") {
@@ -134,8 +121,7 @@ function changeServer() {
 
 function closeModal() {
   document.getElementById('modal').style.display = 'none';
-  const iframe = document.getElementById('modal-video');
-  iframe.src = '';
+  document.getElementById('modal-video').src = '';
 }
 
 function openSearchModal() {
@@ -149,14 +135,14 @@ function closeSearchModal() {
 }
 
 async function searchTMDB() {
-  const query = document.getElementById('search-input').value;
-  if (!query.trim()) return;
+  const query = document.getElementById('search-input').value.trim();
+  if (!query) return;
 
   const res = await fetch(`${BASE_URL}/search/multi?api_key=${API_KEY}&query=${query}`);
   const data = await res.json();
-
   const container = document.getElementById('search-results');
   container.innerHTML = '';
+
   data.results.forEach(item => {
     if (!item.poster_path) return;
     const img = document.createElement('img');
@@ -170,130 +156,6 @@ async function searchTMDB() {
   });
 }
 
-async function init() {
-const apiKey = '27077b0de31705d036e5367a680c8d5f';
-const imageBaseUrl = 'https://image.tmdb.org/t/p/w500';
-
-async function fetchTrending(type = 'movie') {
-  const res = await fetch(`https://api.themoviedb.org/3/trending/${type}/week?api_key=${apiKey}`);
-  const data = await res.json();
-  return data.results;
-}
-
-async function fetchTrendingAnime() {
-  const res = await fetch(`https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&with_genres=16`);
-  const data = await res.json();
-  return data.results;
-}
-
-async function fetchPopularMovies() {
-  const res = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`);
-  const data = await res.json();
-  return data.results;
-}
-
-function displayBanner(movie) {
-  const banner = document.getElementById('banner');
-  const title = document.getElementById('banner-title');
-  banner.style.backgroundImage = `url(${imageBaseUrl}${movie.backdrop_path})`;
-  banner.style.backgroundSize = 'cover';
-  banner.style.backgroundPosition = 'center';
-  title.textContent = movie.title || movie.name;
-}
-
-function displayList(items, containerId) {
-  const container = document.getElementById(containerId);
-  container.innerHTML = '';
-
-  items.forEach(item => {
-    const div = document.createElement('div');
-    div.classList.add('movie');
-    div.innerHTML = `
-      <img src="${imageBaseUrl}${item.poster_path}" alt="${item.title || item.name}" onclick="openModal(${encodeURIComponent(JSON.stringify(item))})" />
-    `;
-    container.appendChild(div);
-  });
-}
-
-function openModal(itemJSON) {
-  const item = JSON.parse(decodeURIComponent(itemJSON));
-  document.getElementById('modal-image').src = `${imageBaseUrl}${item.poster_path}`;
-  document.getElementById('modal-title').textContent = item.title || item.name;
-  document.getElementById('modal-description').textContent = item.overview || 'No description available.';
-  document.getElementById('modal-rating').innerHTML = `Rating: ${item.vote_average}/10`;
-  document.getElementById('modal-video').src = getEmbedUrl(item);
-  document.getElementById('modal').style.display = 'block';
-}
-
-function closeModal() {
-  document.getElementById('modal').style.display = 'none';
-  document.getElementById('modal-video').src = '';
-}
-
-function getEmbedUrl(item) {
-  const id = item.id;
-  const server = document.getElementById('server').value;
-  return `https://${server}/embed/${id}`;
-}
-
-function changeServer() {
-  const video = document.getElementById('modal-video');
-  const itemTitle = document.getElementById('modal-title').textContent;
-  const newServer = document.getElementById('server').value;
-  video.src = `https://${newServer}/embed?title=${encodeURIComponent(itemTitle)}`;
-}
-
-function openSearchModal() {
-  document.getElementById('search-modal').style.display = 'block';
-}
-
-function closeSearchModal() {
-  document.getElementById('search-modal').style.display = 'none';
-  document.getElementById('search-input').value = '';
-  document.getElementById('search-results').innerHTML = '';
-}
-
-async function searchTMDB() {
-  const query = document.getElementById('search-input').value;
-  if (!query) return;
-
-  const res = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&query=${query}`);
-  const data = await res.json();
-  const results = data.results;
-
-  const container = document.getElementById('search-results');
-  container.innerHTML = '';
-
-  results.forEach(item => {
-    if (!item.poster_path) return;
-    const div = document.createElement('div');
-    div.classList.add('search-item');
-    div.innerHTML = `
-      <img src="${imageBaseUrl}${item.poster_path}" alt="${item.title || item.name}" />
-      <p>${item.title || item.name}</p>
-    `;
-    div.onclick = () => openModal(encodeURIComponent(JSON.stringify(item)));
-    container.appendChild(div);
-  });
-}
-
-// Call init on page load
-window.addEventListener('DOMContentLoaded', async () => {
-  const movies = await fetchTrending('movie');
-  const tvShows = await fetchTrending('tv');
-  const anime = await fetchTrendingAnime();
-  const popular = await fetchPopularMovies();
-
-  displayBanner(movies[Math.floor(Math.random() * movies.length)]);
-  displayList(movies, 'movies-list');
-  displayList(tvShows, 'tvshows-list');
-  displayList(anime, 'anime-list');
-  displayList(popular, 'popular-movies-list');
-});
-
-}
-
-init();
 function scrollList(id, direction) {
   const container = document.getElementById(id);
   const scrollAmount = 300 * direction;
