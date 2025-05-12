@@ -1,5 +1,9 @@
 /* Reset and Base */
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 body {
   font-family: Arial, sans-serif;
   background: #111;
@@ -14,7 +18,9 @@ body {
   padding: 10px;
   background: #222;
 }
-.navbar img { height: 40px; }
+.navbar img {
+  height: 40px;
+}
 .nav-links {
   display: flex;
   align-items: center;
@@ -24,6 +30,12 @@ body {
   color: white;
   text-decoration: none;
   margin: 0 5px;
+}
+.nav-links.show {
+  display: flex !important;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 10px;
 }
 
 /* Search Bar */
@@ -42,7 +54,7 @@ body {
   padding: 20px;
 }
 .banner h1 {
-  background: rgba(0,0,0,0.7);
+  background: rgba(0, 0, 0, 0.7);
   padding: 10px;
 }
 
@@ -82,6 +94,7 @@ body {
   justify-content: space-between;
   gap: 20px;
   padding: 20px;
+  animation: fadeIn 0.5s ease-in;
 }
 .movie-item {
   width: 200px;
@@ -165,7 +178,7 @@ body {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   border: none;
   color: white;
   font-size: 24px;
@@ -176,7 +189,7 @@ body {
   transition: background 0.3s;
 }
 .scroll-btn:hover {
-  background: rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.2);
 }
 .scroll-btn.left {
   left: 0;
@@ -192,10 +205,14 @@ body {
     align-items: flex-start;
   }
   .nav-links {
+    display: none;
     flex-direction: column;
     width: 100%;
     gap: 10px;
     margin-top: 10px;
+  }
+  .nav-links.show {
+    display: flex !important;
   }
   .nav-links a, .search-bar {
     width: 100%;
@@ -227,5 +244,17 @@ body {
   }
   .footer-content {
     font-size: 14px;
+  }
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
