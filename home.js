@@ -104,20 +104,14 @@ function changeServer() {
   const type = currentItem.media_type === "tv" ? "tv" : "movie";
   let embedURL = "";
 
-  if (currentItem.original_language === 'tl') {
-    // GDrive fallback for Pinoy movies
-    embedURL = `https://drive.google.com/uc?export=download&id=YOUR_FILE_ID_HERE`;
-  } else {
-    // Default embed options
-    if (server === "apimocine") {
-      embedURL = `https://apimocine.vercel.app/${type}/${currentItem.id}?autoplay=true`;
-    } else if (server === "vidsrc.cc") {
-      embedURL = `https://vidsrc.cc/v2/embed/${type}/${currentItem.id}`;
-    } else if (server === "vidsrc.me") {
-      embedURL = `https://vidsrc.net/embed/${type}/?tmdb=${currentItem.id}`;
-    } else if (server === "player.videasy.net") {
-      embedURL = `https://player.videasy.net/${type}/${currentItem.id}`;
-    }
+  if (server === "apimocine") {
+    embedURL = `https://apimocine.vercel.app/${type}/${currentItem.id}?autoplay=true`;
+  } else if (server === "vidsrc.cc") {
+    embedURL = `https://vidsrc.cc/v2/embed/${type}/${currentItem.id}`;
+  } else if (server === "vidsrc.me") {
+    embedURL = `https://vidsrc.net/embed/${type}/?tmdb=${currentItem.id}`;
+  } else if (server === "player.videasy.net") {
+    embedURL = `https://player.videasy.net/${type}/${currentItem.id}`;
   }
 
   const iframe = document.getElementById('modal-video');
