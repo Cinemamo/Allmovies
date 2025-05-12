@@ -439,3 +439,20 @@ body { font-family: Arial, sans-serif; background: #111; color: #fff; }
 .genre-menu a:hover {
     background-color: #ff5733;
 }
+.movie-item {
+  display: inline-block;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.movie-item img {
+  width: 150px;
+  height: 225px;
+  object-fit: cover;
+}
+
+.movie-item p {
+  text-align: center;
+  margin-top: 5px;
+  font-size: 14px;
+}
