@@ -9,6 +9,8 @@ body { font-family: Arial, sans-serif; background: #111; color: #fff; }
 .navbar img {
   height: 100px !important;
   width: auto !important;
+margin-left: 10px; /* igilid pa-kaliwa */
+  align-self: flex-start; /* igilid sa taas kung sakaling mataas ang navbar */
 }
 
 @media (max-width: 768px) {
