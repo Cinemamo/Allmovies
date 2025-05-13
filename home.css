@@ -416,3 +416,8 @@ body { font-family: Arial, sans-serif; background: #111; color: #fff; }
   cursor: pointer;
   border-radius: 5px;
 }
+.server-selector p {
+  font-size: 13px;
+  color: #bbb;
+  margin-top: 4px;
+}
