@@ -6,6 +6,11 @@ body { font-family: Arial, sans-serif; background: #111; color: #fff; }
   padding: 10px; background: #222;
 }
 
+.navbar img {
+  height: 100px !important;
+  width: auto !important;
+}
+
 @media (max-width: 768px) {
   .navbar img {
     height: 60px;
