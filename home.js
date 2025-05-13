@@ -99,10 +99,8 @@ function showDetails(item) {
 }
 
 function changeServer() {
-  if (!currentItem) return;
-
   const server = document.getElementById('server').value;
-  const type = currentItem.media_type === "tv" ? "tv" : "movie";
+  const type = currentItem.media_type === "movie" ? "movie" : "tv";
   let embedURL = "";
 
   if (server === "apimocine") {
@@ -113,14 +111,17 @@ function changeServer() {
     embedURL = `https://vidsrc.net/embed/${type}/?tmdb=${currentItem.id}`;
   } else if (server === "player.videasy.net") {
     embedURL = `https://player.videasy.net/${type}/${currentItem.id}`;
-  } else if (server === "gdrive" || server === "gdstream") {
-    embedURL = ""; // Walang video ang ilalagay para sa GDrive o GDStream
+  } else if (server === "2embed") {
+    embedURL = `https://www.2embed.cc/embed/${type}?tmdb=${currentItem.id}`;
+  } else if (server === "multiembed") {
+    embedURL = `https://multiembed.mov/embed/${type}?tmdb=${currentItem.id}`;
   }
 
   const iframe = document.getElementById('modal-video');
   iframe.src = embedURL;
   iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
 }
+
 
 
 function closeModal() {
