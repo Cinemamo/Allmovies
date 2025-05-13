@@ -102,6 +102,7 @@ function changeServer() {
   const server = document.getElementById('server').value;
   const type = currentItem.media_type === "movie" ? "movie" : "tv";
   let embedURL = "";
+  const iframe = document.getElementById('modal-video');
 
   if (server === "apimocine") {
     embedURL = `https://apimocine.vercel.app/${type}/${currentItem.id}?autoplay=true`;
@@ -113,14 +114,17 @@ function changeServer() {
     embedURL = `https://player.videasy.net/${type}/${currentItem.id}`;
   } else if (server === "2embed") {
     embedURL = `https://www.2embed.cc/embed/${type}?tmdb=${currentItem.id}`;
-  } else if (server === "multiembed") {
-    embedURL = `https://multiembed.mov/embed/${type}?tmdb=${currentItem.id}`;
   }
 
-  const iframe = document.getElementById('modal-video');
   iframe.src = embedURL;
-  iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
+
+  if (server === "2embed") {
+    iframe.removeAttribute('sandbox');
+  } else {
+    iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
+  }
 }
+
 
 
 
