@@ -40,6 +40,20 @@ async function fetchPopularMovies() {
   return data.results;
 }
 
+// Mga pelikulang kasalukuyang ipinalalabas
+async function fetchNowPlaying() {
+  const res = await fetch(`${BASE_URL}/movie/now_playing?api_key=${API_KEY}`);
+  const data = await res.json();
+  return data.results;
+}
+
+// Pinakabagong pelikula (isang item lang ito)
+async function fetchLatestMovie() {
+  const res = await fetch(`${BASE_URL}/movie/latest?api_key=${API_KEY}`);
+  const data = await res.json();
+  return data;
+}
+
 async function fetchTrending(type) {
   const res = await fetch(`${BASE_URL}/trending/${type}/week?api_key=${API_KEY}`);
   const data = await res.json();
