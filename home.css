@@ -416,3 +416,9 @@ body { font-family: Arial, sans-serif; background: #111; color: #fff; }
   cursor: pointer;
   border-radius: 5px;
 }
+.server-help-text {
+  color: red;
+  font-weight: bold;
+  margin-top: 8px;
+  font-size: 14px;
+}
