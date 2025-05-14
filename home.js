@@ -2,24 +2,18 @@ const API_KEY = '27077b0de31705d036e5367a680c8d5f';
 const BASE_URL = 'https://api.themoviedb.org/3';
 const IMG_URL = 'https://image.tmdb.org/t/p/original';
 let currentItem = null;
-let searchTimeout = null;
 
 document.addEventListener("DOMContentLoaded", async () => {
-  // Navbar toggles
   document.getElementById("menu-toggle")?.addEventListener("click", () => {
     document.querySelector(".nav-links")?.classList.toggle("show");
   });
 
-  // Search modal events
   document.getElementById("search-icon")?.addEventListener("click", openSearchModal);
   document.getElementById("search-close")?.addEventListener("click", closeSearchModal);
-  document.getElementById("search-input")?.addEventListener("input", debounceSearch);
-
-  // Server and modal controls
+  document.getElementById("search-input")?.addEventListener("input", searchTMDB);
   document.getElementById("server")?.addEventListener("change", changeServer);
   document.querySelector(".close")?.addEventListener("click", closeModal);
 
-  // Genre events
   document.querySelectorAll('.genre-item').forEach(item => {
     item.addEventListener('click', async () => {
       const genreId = item.getAttribute('data-genre-id');
@@ -28,25 +22,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // Load only trending movies initially
   const trendingMovies = await fetchTrending('movie');
+  const trendingTV = await fetchTrending('tv');
+  const trendingAnime = await fetchTrendingAnime();
+  const popularMovies = await fetchPopularMovies();
+
   displayBanner(trendingMovies[Math.floor(Math.random() * trendingMovies.length)]);
   displayList(trendingMovies, 'movies-list');
-
-  // Lazy load the rest after a delay
-  setTimeout(async () => {
-    const [trendingTV, trendingAnime, popularMovies] = await Promise.all([
-      fetchTrending('tv'),
-      fetchTrendingAnime(),
-      fetchPopularMovies()
-    ]);
-    displayList(trendingTV, 'tvshows-list');
-    displayList(trendingAnime, 'anime-list');
-    displayList(popularMovies, 'popular-movies-list');
-  }, 1000);
+  displayList(trendingTV, 'tvshows-list');
+  displayList(trendingAnime, 'anime-list');
+  displayList(popularMovies, 'popular-movies-list');
 });
 
-// TMDB fetch functions
 async function fetchPopularMovies() {
   const res = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}`);
   const data = await res.json();
@@ -78,7 +65,6 @@ async function fetchMoviesByGenre(genreId) {
   return data.results;
 }
 
-// Display movie lists
 function displayList(items, containerId) {
   const container = document.getElementById(containerId);
   container.innerHTML = '';
@@ -102,7 +88,6 @@ function displayBanner(item) {
   document.getElementById('banner-title').textContent = item.title || item.name;
 }
 
-// Modal detail display
 function showDetails(item) {
   currentItem = item;
   document.getElementById('modal-title').textContent = item.title || item.name;
@@ -113,14 +98,8 @@ function showDetails(item) {
   changeServer();
 }
 
-// Server switching with loader
 function changeServer() {
   if (!currentItem) return;
-
-  const loader = document.getElementById('video-loader');
-  const iframe = document.getElementById('modal-video');
-  loader.style.display = 'block';
-  iframe.style.display = 'none';
 
   const server = document.getElementById('server').value;
   const type = currentItem.media_type === "tv" ? "tv" : "movie";
@@ -134,26 +113,29 @@ function changeServer() {
     embedURL = `https://vidsrc.net/embed/${type}/?tmdb=${currentItem.id}`;
   } else if (server === "player.videasy.net") {
     embedURL = `https://player.videasy.net/${type}/${currentItem.id}`;
+  } else if (server === "gdrive" || server === "gdstream") {
+    embedURL = ""; // Walang video ang ilalagay para sa GDrive o GDStream
   }
 
+  const iframe = document.getElementById('modal-video');
   iframe.src = embedURL;
-  iframe.onload = () => {
-    loader.style.display = 'none';
-    iframe.style.display = 'block';
-  };
   iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
 }
 
-// Close modal
+
 function closeModal() {
   document.getElementById('modal').style.display = 'none';
   document.getElementById('modal-video').src = '';
 }
 
-// Search functionality with debounce
-function debounceSearch() {
-  clearTimeout(searchTimeout);
-  searchTimeout = setTimeout(searchTMDB, 500);
+function openSearchModal() {
+  document.getElementById('search-modal').style.display = 'flex';
+  document.getElementById('search-input').focus();
+}
+
+function closeSearchModal() {
+  document.getElementById('search-modal').style.display = 'none';
+  document.getElementById('search-results').innerHTML = '';
 }
 
 async function searchTMDB() {
@@ -178,25 +160,12 @@ async function searchTMDB() {
   });
 }
 
-// Search modal open/close
-function openSearchModal() {
-  document.getElementById('search-modal').style.display = 'flex';
-  document.getElementById('search-input').focus();
-}
-
-function closeSearchModal() {
-  document.getElementById('search-modal').style.display = 'none';
-  document.getElementById('search-results').innerHTML = '';
-}
-
-// Horizontal scroll (carousel)
 function scrollList(id, direction) {
   const container = document.getElementById(id);
   const scrollAmount = 300 * direction;
   container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
 }
 
-// Hide intro disclaimer
 function hideIntro() {
   document.getElementById("intro-disclaimer").style.display = "none";
 }
