@@ -105,23 +105,49 @@ function changeServer() {
   const type = currentItem.media_type === "tv" ? "tv" : "movie";
   let embedURL = "";
 
-  if (server === "apimocine") {
-    embedURL = `https://apimocine.vercel.app/${type}/${currentItem.id}?autoplay=true`;
-  } else if (server === "vidsrc.cc") {
-    embedURL = `https://vidsrc.cc/v2/embed/${type}/${currentItem.id}`;
-  } else if (server === "vidsrc.me") {
-    embedURL = `https://vidsrc.net/embed/${type}/?tmdb=${currentItem.id}`;
-  } else if (server === "player.videasy.net") {
-    embedURL = `https://player.videasy.net/${type}/${currentItem.id}`;
-  } else if (server === "2embed") {  
-    // Update the URL for 2embed server
-    embedURL = `https://2embed.to/${type}/${currentItem.id}`;
+  console.log("Current Server Selected:", server); // Debugging the selected server
+  
+  // Choose embed URL based on selected server
+  switch(server) {
+    case "apimocine":
+      embedURL = `https://apimocine.vercel.app/${type}/${currentItem.id}?autoplay=true`;
+      break;
+    case "vidsrc.cc":
+      embedURL = `https://vidsrc.cc/v2/embed/${type}/${currentItem.id}`;
+      break;
+    case "vidsrc.me":
+      embedURL = `https://vidsrc.net/embed/${type}/?tmdb=${currentItem.id}`;
+      break;
+    case "player.videasy.net":
+      embedURL = `https://player.videasy.net/${type}/${currentItem.id}`;
+      break;
+    case "2embed":
+      embedURL = `https://2embed.to/${type}/${currentItem.id}`;
+      break;
+    default:
+      embedURL = `https://2embed.to/${type}/${currentItem.id}`; // Default to 2embed if no server is selected
   }
 
+  console.log("Generated Embed URL:", embedURL); // Debugging the generated embed URL
+
+  // Set the iframe src
   const iframe = document.getElementById('modal-video');
   iframe.src = embedURL;
+
+  // Set iframe attributes for proper functionality
   iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
+  iframe.setAttribute('allowfullscreen', 'true');
+
+  // Check if the iframe is loaded
+  iframe.onload = function() {
+    console.log("Iframe loaded successfully.");
+  }
+
+  iframe.onerror = function() {
+    console.error("Error loading iframe.");
+  }
 }
+
 
 
 
