@@ -113,14 +113,16 @@ function changeServer() {
     embedURL = `https://vidsrc.net/embed/${type}/?tmdb=${currentItem.id}`;
   } else if (server === "player.videasy.net") {
     embedURL = `https://player.videasy.net/${type}/${currentItem.id}`;
-  } else if (server === "gdrive" || server === "gdstream") {
-    embedURL = ""; // Walang video ang ilalagay para sa GDrive o GDStream
+  } else if (server === "2embed") {
+    // Adding the 2embed server logic
+    embedURL = `https://2embed.to/embed/${type}/${currentItem.id}`;
   }
 
   const iframe = document.getElementById('modal-video');
   iframe.src = embedURL;
   iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
 }
+
 
 
 function closeModal() {
