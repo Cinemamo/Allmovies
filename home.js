@@ -22,17 +22,27 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
+  document.addEventListener("DOMContentLoaded", async () => {
+  // ... iyong mga event listeners dito ...
+
   const trendingMovies = await fetchTrending('movie');
   const trendingTV = await fetchTrending('tv');
   const trendingAnime = await fetchTrendingAnime();
   const popularMovies = await fetchPopularMovies();
+  const nowPlaying = await fetchNowPlaying();          // ← ito
+  const latestMovie = await fetchLatestMovie();        // ← ito
 
   displayBanner(trendingMovies[Math.floor(Math.random() * trendingMovies.length)]);
   displayList(trendingMovies, 'movies-list');
   displayList(trendingTV, 'tvshows-list');
   displayList(trendingAnime, 'anime-list');
   displayList(popularMovies, 'popular-movies-list');
+  displayList(nowPlaying, 'now-playing-list');         // ← ito
+  if (latestMovie.poster_path) {                       // ← ito
+    displayList([latestMovie], 'latest-movie-list');
+  }
 });
+
 
 async function fetchPopularMovies() {
   const res = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}`);
