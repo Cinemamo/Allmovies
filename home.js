@@ -98,7 +98,7 @@ function showDetails(item) {
   changeServer();
 }
 
-function changeServer() {
+async function changeServer() {
   if (!currentItem) return;
 
   const server = document.getElementById('server').value;
@@ -122,7 +122,18 @@ function changeServer() {
       embedURL = `https://player.videasy.net/${type}/${currentItem.id}`;
       break;
     case "2embed":
-      embedURL = `https://2embed.to/${type}/${currentItem.id}`;
+      // Fetch HLS stream from 2embed API
+      try {
+        const response = await fetch(`https://2embed.to/api/get_source/${type}?id=${currentItem.id}`);
+        const data = await response.json();
+        if (data?.sources?.length > 0) {
+          embedURL = data.sources[0].file;
+        } else {
+          console.error("No sources found for 2embed.");
+        }
+      } catch (error) {
+        console.error("Error fetching from 2embed API:", error);
+      }
       break;
     default:
       embedURL = `https://2embed.to/${type}/${currentItem.id}`; // Default to 2embed if no server is selected
@@ -147,11 +158,6 @@ function changeServer() {
     console.error("Error loading iframe.");
   }
 }
-
-
-
-
-
 
 function closeModal() {
   document.getElementById('modal').style.display = 'none';
