@@ -2,9 +2,13 @@
 body { font-family: Arial, sans-serif; background: #111; color: #fff; }
 
 .navbar {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 10px; background: #222;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 10px; /* mas maliit ang padding */
+  background: #222;
 }
+
 
 .navbar img {
   height: 100px !important;
