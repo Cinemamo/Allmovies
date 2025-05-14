@@ -11,9 +11,10 @@ body {
 }
 
 .navbar {
+  position: relative;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: flex-start;
   padding: 5px 10px;
   background: #222;
   height: 60px;
@@ -27,6 +28,9 @@ body {
 }
 
 .nav-links {
+  position: absolute;
+  top: 10px;
+  right: 10px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -35,7 +39,7 @@ body {
 .nav-links a {
   color: white;
   text-decoration: none;
-  margin: 0 5px;
+  font-size: 16px;
 }
 
 .search-bar {
@@ -329,8 +333,6 @@ body {
 /* MOBILE MEDIA QUERIES */
 @media (max-width: 768px) {
   .navbar {
-    flex-direction: row;
-    align-items: center;
     height: 50px;
   }
 
@@ -339,12 +341,12 @@ body {
   }
 
   .nav-links {
-    flex-direction: row;
-    gap: 10px;
+    top: 8px;
+    right: 8px;
+    gap: 8px;
   }
 
   .search-bar {
-    margin-top: 0;
     font-size: 12px;
     width: 120px;
   }
@@ -368,11 +370,6 @@ body {
   .search-modal input {
     margin-top: 50px;
     width: 90%;
-  }
-
-  .search-modal .results {
-    justify-content: center;
-    padding: 10px 0;
   }
 
   .footer-content {
