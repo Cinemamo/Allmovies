@@ -22,27 +22,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  document.addEventListener("DOMContentLoaded", async () => {
-  // ... iyong mga event listeners dito ...
-
   const trendingMovies = await fetchTrending('movie');
   const trendingTV = await fetchTrending('tv');
   const trendingAnime = await fetchTrendingAnime();
   const popularMovies = await fetchPopularMovies();
-  const nowPlaying = await fetchNowPlaying();          // ← ito
-  const latestMovie = await fetchLatestMovie();        // ← ito
 
   displayBanner(trendingMovies[Math.floor(Math.random() * trendingMovies.length)]);
   displayList(trendingMovies, 'movies-list');
   displayList(trendingTV, 'tvshows-list');
   displayList(trendingAnime, 'anime-list');
   displayList(popularMovies, 'popular-movies-list');
-  displayList(nowPlaying, 'now-playing-list');         // ← ito
-  if (latestMovie.poster_path) {                       // ← ito
-    displayList([latestMovie], 'latest-movie-list');
-  }
 });
-
 
 async function fetchPopularMovies() {
   const res = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}`);
@@ -109,10 +99,11 @@ function showDetails(item) {
 }
 
 function changeServer() {
+  if (!currentItem) return;
+
   const server = document.getElementById('server').value;
-  const type = currentItem.media_type === "movie" ? "movie" : "tv";
+  const type = currentItem.media_type === "tv" ? "tv" : "movie";
   let embedURL = "";
-  const iframe = document.getElementById('modal-video');
 
   if (server === "apimocine") {
     embedURL = `https://apimocine.vercel.app/${type}/${currentItem.id}?autoplay=true`;
@@ -122,21 +113,14 @@ function changeServer() {
     embedURL = `https://vidsrc.net/embed/${type}/?tmdb=${currentItem.id}`;
   } else if (server === "player.videasy.net") {
     embedURL = `https://player.videasy.net/${type}/${currentItem.id}`;
-  } else if (server === "2embed") {
-    embedURL = `https://www.2embed.cc/embed/${type}?tmdb=${currentItem.id}`;
+  } else if (server === "gdrive" || server === "gdstream") {
+    embedURL = ""; // Walang video ang ilalagay para sa GDrive o GDStream
   }
 
+  const iframe = document.getElementById('modal-video');
   iframe.src = embedURL;
-
-  if (server === "2embed") {
-    iframe.removeAttribute('sandbox');
-  } else {
-    iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
-  }
+  iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
 }
-
-
-
 
 
 function closeModal() {
