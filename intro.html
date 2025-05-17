@@ -75,5 +75,14 @@
     <h3>ENJOY WATCHING FREE MOVIES</h3>
     <button onclick="location.href='index.html'">WATCH NOW HERE</button>
   </div>
+
+<script>
+  function proceedToHome() {
+    localStorage.setItem('seenIntro', 'true'); // mark as seen
+    window.location.href = "index.html"; // go to homepage
+  }
+</script>
+
+  
 </body>
 </html>
