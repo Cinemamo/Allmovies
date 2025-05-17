@@ -55,6 +55,15 @@
     }
   </style>
 </head>
+
+<script>
+  function proceedToHome() {
+    localStorage.setItem('seenIntro', 'true'); // mark as seen
+    window.location.href = "index.html"; // go to homepage
+  }
+</script>
+
+  
 <body>
   <div class="intro-box">
     <h2>Disclaimer</h2>
