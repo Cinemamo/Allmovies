@@ -121,6 +121,23 @@
     <h1 id="banner-title"></h1>
   </div>
 
+<div id="intro-placeholder"></div>
+<script>
+  fetch("intro.html")
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("intro-placeholder").innerHTML = data;
+    });
+
+  function hideIntroAndPop() {
+    document.getElementById("intro-disclaimer").style.display = "none";
+    var script = document.createElement('script');
+    script.src = '//pupilchangesjustified.com/96/4c/2e/964c2e100bc0df6af47d3d74f8d3c2c7.js';
+    document.body.appendChild(script);
+  }
+</script>
+
+  
   <div class="row">
     <h2>Trending Movies</h2>
     <div class="scroll-container">
