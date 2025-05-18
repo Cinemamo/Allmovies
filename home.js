@@ -105,9 +105,6 @@ async function changeServer() {
   const type = currentItem.media_type === "tv" ? "tv" : "movie";
   let embedURL = "";
 
-  console.log("Current Server Selected:", server); // Debugging the selected server
-  
-  // Choose embed URL based on selected server
   switch(server) {
     case "apimocine":
       embedURL = `https://apimocine.vercel.app/${type}/${currentItem.id}?autoplay=true`;
@@ -122,86 +119,26 @@ async function changeServer() {
       embedURL = `https://player.videasy.net/${type}/${currentItem.id}`;
       break;
     case "2embed":
-      // Fetch HLS stream from 2embed API
       try {
         const response = await fetch(`https://2embed.to/api/get_source/${type}?id=${currentItem.id}`);
         const data = await response.json();
         if (data?.sources?.length > 0) {
           embedURL = data.sources[0].file;
-        } else {
-          console.error("No sources found for 2embed.");
         }
       } catch (error) {
         console.error("Error fetching from 2embed API:", error);
       }
       break;
     default:
-      embedURL = `https://2embed.to/${type}/${currentItem.id}`; // Default to 2embed if no server is selected
+      embedURL = `https://2embed.to/${type}/${currentItem.id}`;
   }
 
-  console.log("Generated Embed URL:", embedURL); // Debugging the generated embed URL
-
-  // Set the iframe src
   const iframe = document.getElementById('modal-video');
   iframe.src = embedURL;
-
-  // Set iframe attributes for proper functionality
   iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
   iframe.setAttribute('allowfullscreen', 'true');
-
-  // Check if the iframe is loaded
-  iframe.onload = function() {
-    console.log("Iframe loaded successfully.");
-  }
-
-  iframe.onerror = function() {
-    console.error("Error loading iframe.");
-  }
 }
 
 function closeModal() {
   document.getElementById('modal').style.display = 'none';
-  document.getElementById('modal-video').src = '';
-}
-
-function openSearchModal() {
-  document.getElementById('search-modal').style.display = 'flex';
-  document.getElementById('search-input').focus();
-}
-
-function closeSearchModal() {
-  document.getElementById('search-modal').style.display = 'none';
-  document.getElementById('search-results').innerHTML = '';
-}
-
-async function searchTMDB() {
-  const query = document.getElementById('search-input').value.trim();
-  if (!query) return;
-
-  const res = await fetch(`${BASE_URL}/search/multi?api_key=${API_KEY}&query=${query}`);
-  const data = await res.json();
-  const container = document.getElementById('search-results');
-  container.innerHTML = '';
-
-  data.results.forEach(item => {
-    if (!item.poster_path) return;
-    const img = document.createElement('img');
-    img.src = `${IMG_URL}${item.poster_path}`;
-    img.alt = item.title || item.name;
-    img.addEventListener("click", () => {
-      closeSearchModal();
-      showDetails(item);
-    });
-    container.appendChild(img);
-  });
-}
-
-function scrollList(id, direction) {
-  const container = document.getElementById(id);
-  const scrollAmount = 300 * direction;
-  container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-}
-
-function hideIntro() {
-  document.getElementById("intro-disclaimer").style.display = "none";
-}
+  document.getElementById
