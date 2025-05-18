@@ -122,7 +122,6 @@ function changeServer() {
   iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
 }
 
-
 function closeModal() {
   document.getElementById('modal').style.display = 'none';
   document.getElementById('modal-video').src = '';
@@ -164,8 +163,4 @@ function scrollList(id, direction) {
   const container = document.getElementById(id);
   const scrollAmount = 300 * direction;
   container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-}
-
-function hideIntro() {
-  document.getElementById("intro-disclaimer").style.display = "none";
 }
