@@ -382,6 +382,7 @@ body { font-family: Arial, sans-serif; background: #111; color: #fff; }
 .scroll-btn.right {
   right: 0;
 }
+
 #intro-disclaimer {
   position: fixed;
   top: 0;
