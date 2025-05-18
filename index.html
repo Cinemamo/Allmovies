@@ -1,26 +1,20 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-
- <head>
-  <script>
-  // Redirect to intro.html only if not seen before
-  if (!localStorage.getItem('seenIntro')) {
-    window.location.replace("intro.html");
-  }
-</script>
-
- 
-
-
-
-   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>All Movies</title>
   <link rel="stylesheet" href="/home.css">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <script defer src="/home.js"></script>
+
+  <script>
+    // Redirect to intro.html if user hasn't seen it
+    if (!localStorage.getItem('seenIntro')) {
+      window.location.replace("intro.html");
+    }
   <style>
     .navbar {
       display: flex;
