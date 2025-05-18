@@ -98,47 +98,74 @@ function showDetails(item) {
   changeServer();
 }
 
-async function changeServer() {
+function changeServer() {
   if (!currentItem) return;
 
   const server = document.getElementById('server').value;
   const type = currentItem.media_type === "tv" ? "tv" : "movie";
   let embedURL = "";
 
-  switch(server) {
-    case "apimocine":
-      embedURL = `https://apimocine.vercel.app/${type}/${currentItem.id}?autoplay=true`;
-      break;
-    case "vidsrc.cc":
-      embedURL = `https://vidsrc.cc/v2/embed/${type}/${currentItem.id}`;
-      break;
-    case "vidsrc.me":
-      embedURL = `https://vidsrc.net/embed/${type}/?tmdb=${currentItem.id}`;
-      break;
-    case "player.videasy.net":
-      embedURL = `https://player.videasy.net/${type}/${currentItem.id}`;
-      break;
-    case "2embed":
-      try {
-        const response = await fetch(`https://2embed.to/api/get_source/${type}?id=${currentItem.id}`);
-        const data = await response.json();
-        if (data?.sources?.length > 0) {
-          embedURL = data.sources[0].file;
-        }
-      } catch (error) {
-        console.error("Error fetching from 2embed API:", error);
-      }
-      break;
-    default:
-      embedURL = `https://2embed.to/${type}/${currentItem.id}`;
+  if (server === "apimocine") {
+    embedURL = `https://apimocine.vercel.app/${type}/${currentItem.id}?autoplay=true`;
+  } else if (server === "vidsrc.cc") {
+    embedURL = `https://vidsrc.cc/v2/embed/${type}/${currentItem.id}`;
+  } else if (server === "vidsrc.me") {
+    embedURL = `https://vidsrc.net/embed/${type}/?tmdb=${currentItem.id}`;
+  } else if (server === "player.videasy.net") {
+    embedURL = `https://player.videasy.net/${type}/${currentItem.id}`;
+  } else if (server === "gdrive" || server === "gdstream") {
+    embedURL = ""; // Walang video ang ilalagay para sa GDrive o GDStream
   }
 
   const iframe = document.getElementById('modal-video');
   iframe.src = embedURL;
   iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
-  iframe.setAttribute('allowfullscreen', 'true');
 }
+
 
 function closeModal() {
   document.getElementById('modal').style.display = 'none';
-  document.getElementById
+  document.getElementById('modal-video').src = '';
+}
+
+function openSearchModal() {
+  document.getElementById('search-modal').style.display = 'flex';
+  document.getElementById('search-input').focus();
+}
+
+function closeSearchModal() {
+  document.getElementById('search-modal').style.display = 'none';
+  document.getElementById('search-results').innerHTML = '';
+}
+
+async function searchTMDB() {
+  const query = document.getElementById('search-input').value.trim();
+  if (!query) return;
+
+  const res = await fetch(`${BASE_URL}/search/multi?api_key=${API_KEY}&query=${query}`);
+  const data = await res.json();
+  const container = document.getElementById('search-results');
+  container.innerHTML = '';
+
+  data.results.forEach(item => {
+    if (!item.poster_path) return;
+    const img = document.createElement('img');
+    img.src = `${IMG_URL}${item.poster_path}`;
+    img.alt = item.title || item.name;
+    img.addEventListener("click", () => {
+      closeSearchModal();
+      showDetails(item);
+    });
+    container.appendChild(img);
+  });
+}
+
+function scrollList(id, direction) {
+  const container = document.getElementById(id);
+  const scrollAmount = 300 * direction;
+  container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+}
+
+function hideIntro() {
+  document.getElementById("intro-disclaimer").style.display = "none";
+}
