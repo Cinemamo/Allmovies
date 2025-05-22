@@ -416,25 +416,3 @@ body { font-family: Arial, sans-serif; background: #111; color: #fff; }
   cursor: pointer;
   border-radius: 5px;
 }
-/* Mga existing CSS rules dito */
-
-/* Puwede kang maglagay ng bagong styles sa dulo */
-
-#intro-disclaimer a {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 12px 25px;
-  background-color: #00ff00;
-  color: black;
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 18px;
-  text-align: center;
-  transition: background-color 0.3s ease;
-}
-
-#intro-disclaimer a:hover {
-  background-color: #009900;
-}
-
-/* Pwede pa mga ibang styles dito */
